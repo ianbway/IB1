@@ -1,2 +1,2 @@
-# CS201
-Projects for CS201
+# IB1
+Projects for IB1
