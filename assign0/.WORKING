@@ -1,0 +1,7 @@
+/home/Ian/assign0
+Sun Feb  5 20:54:45 STD 2017
+assign0_test	dll.h	   iwbraudaway@crimson.ua.edu  sll.c	stack.o
+assign0_test.c	dll.o	   makefile		       sll.h	stacktest.c
+assign0_test.o	integer.c  queue.c		       sll.o	test-integer
+assign0-tests	integer.h  queue.h		       stack.c	test-integer.c
+dll.c		integer.o  queue.o		       stack.h	WORKING
