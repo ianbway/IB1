@@ -6,18 +6,102 @@
 #include "stack.h"
 #include "queue.h"
 
-int ProcessOptions(int,char **);
 void Fatal(char *,...);
-
-FILE *inputFile;
+void printAuthor();
+void printPostfix();
+void printResult();
+int processFile(FILE *);
 
 int main(int argc, char **argv)
 	{
 
-	ProcessOptions(argc,argv);
+	int argIndex = 1; //default to 1 in order to skip executable
+	char *arg;
+	char *fileName = 0;
+	int printAuthorOption = 0;
+	int printDecimalOption = 0;
+	int printRealOption = 0;
+	int printStringOption = 0;
+	FILE *input;
 
-	return 0;
+	while (argIndex < argc)
+	{
+		arg = argv[argIndex];
+
+		if (arg[0] == '-')
+		{
+			// get char after hyphen
+			switch (arg[1])
+			{
+			case 'v':
+				printAuthorOption = 1;
+				break;
+			case 'd':
+				printDecimalOption = 1;
+				break;
+			case 'r':
+				printRealOption = 1;
+				break;
+			case 's':
+				printStringOption = 1;
+				break;
+			default:
+				Fatal("option %s not understood\n", arg);
+			}
+		}
+		else
+		{
+			fileName = arg; // assume filename
+		}
+
+		++argIndex;	
 	}
+
+	if (printAuthorOption == 1)
+	{
+		printAuthor();
+		return;
+	}
+
+	if (printDecimalOption == 1)
+	{
+		printDecimal();
+		return;
+	}
+
+	if (printRealOption == 1)
+	{
+		printReal();
+		return;
+	}
+
+	if (printStringOption == 1)
+	{
+		printString();
+		return;
+	}
+
+	if (fileName != 0)
+	{
+		input = fopen(fileName, "r");
+		if (input == NULL)
+		{
+			Fatal("could not open %s file\n", fileName);
+			return;
+		}
+	}
+	else
+	{
+		input = stdin;
+	}
+
+	return;
+	}
+
+void printAuthor()
+{
+	printf("Ian W. Braudaway\n");
+}
 
 // print the error string and return
 void Fatal(char *fmt, ...)
@@ -34,94 +118,21 @@ void Fatal(char *fmt, ...)
 
 int ProcessFile(FILE *fp)
 	{
+		printf("processFile\n");	
+		char *s;
+
+		while (s = readLine(fp))
+		{
+			printf("<%s>\n", s);
+		}
+
+		if (s)
+		{
+			printf("free %s\n", s);
+			free(s);
+		}
 		
-	char *s;
-	int ch;
-
-	s = readLine(fp);
-	ch = s[0];
-		while (s[0] != '\0')
-			{
-			printf("<%s>\n",s);
-			s = readLine(fp);
-			ch = s[0];
-			printf("<%s>after\n",s);
-		}
-	printf("before file close");
-	fclose(fp);
-	printf("after file close");
-	return 0;
+		fclose(fp);
+		printf("fclose()\n");
+		return 0;
 	}
-
-// process command line options
-int ProcessOptions(int argc, char **argv)
-	{
-	int argIndex;
-	int argUsed;
-	int seperateArg;
-	char *arg;
-	FILE *fp;
-	
-	if (argc == 3)
-	{
-	 printf("processing %s\n",argv[2]);
-	 fp = fopen(argv[2],"r"); 
-	}
-	else
-	{ 
-	 fp = stdin; 
-	} 
-	
-	argIndex = 1;
-
-	if (argc == 1) 
-	{
-		ProcessFile(fp);
-	}
-
-	else 
-	{
-	while (argIndex < argc && *argv[argIndex] == '-')
-	{	
-	
-		printf("processing %s\n",argv[argIndex]);
-
-		// no arguments
-		if (argv[argIndex][1] == '\0') return argIndex;
-	
-		seperateArg = 0;
-		argUsed = 0;
-
-		// check arguments
-		// determine if the argument has a seperate value
-			if (argv[argIndex][2] == '\0')
-				{
-			arg = argv[argIndex+1];
-			seperateArg = 1;
-			}
-		else
-			arg = argv[argIndex]+2;
-
-		switch (argv[argIndex][1])
-			{
-			case 'v':
-				printf("Ian W. Braudaway\n");
-				argUsed = 1;
-				break;
-			case 'd':
-				argUsed = 1;
-				ProcessFile(fp);
-				break;
-			default:
-				Fatal("option %s not understood\n",argv[argIndex]);		
-			}
-
-		if (seperateArg && argUsed)
-			++argIndex;
-			++argIndex;
-		}
-	}
-	return argIndex;
-}
-
-
