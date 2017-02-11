@@ -14,8 +14,8 @@ $(TARGET).o : $(TARGET).c
 sll.o : sll.c sll.h
 	$(CC) $(OPTS) -c sll.c
 
-#integer.o : integer.c integer.h
-#	$(CC) $(OPTS) -c integer.c
+integer.o : integer.c integer.h
+	$(CC) $(OPTS) -c integer.c
 
 dll.o : dll.c dll.h
 	$(CC) $(OPTS) -c dll.c

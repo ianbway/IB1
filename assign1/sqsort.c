@@ -5,12 +5,15 @@
 #include "scanner.h"
 #include "stack.h"
 #include "queue.h"
+#include "integer.h"
+#include "real.h"
+#include "string.h"
 
 void Fatal(char *,...);
 void printAuthor();
 void printPostfix();
 void printResult();
-int processFile(FILE *);
+int processFile(FILE *,int,int,int);
 
 int main(int argc, char **argv)
 	{
@@ -19,9 +22,9 @@ int main(int argc, char **argv)
 	char *arg;
 	char *fileName = 0;
 	int printAuthorOption = 0;
-	int printDecimalOption = 0;
-	int printRealOption = 0;
-	int printStringOption = 0;
+	int sortDecimal = 0;
+	int sortReal = 0;
+	int sortString = 0;
 	FILE *input;
 
 	while (argIndex < argc)
@@ -37,16 +40,16 @@ int main(int argc, char **argv)
 				printAuthorOption = 1;
 				break;
 			case 'd':
-				printDecimalOption = 1;
+				sortDecimal = 1;
 				break;
 			case 'r':
-				printRealOption = 1;
+				sortReal = 1;
 				break;
 			case 's':
-				printStringOption = 1;
+				sortString = 1;
 				break;
 			default:
-				Fatal("option %s not understood\n", arg);
+				Fatal("unknown flag '%s', valid flags are -d, -r, -s and -v\n", arg);
 			}
 		}
 		else
@@ -57,37 +60,18 @@ int main(int argc, char **argv)
 		++argIndex;	
 	}
 
-	if (printAuthorOption == 1)
+	if (printAuthorOption)
 	{
 		printAuthor();
-		return;
+		return 0;
 	}
 
-	if (printDecimalOption == 1)
-	{
-		printDecimal();
-		return;
-	}
-
-	if (printRealOption == 1)
-	{
-		printReal();
-		return;
-	}
-
-	if (printStringOption == 1)
-	{
-		printString();
-		return;
-	}
-
-	if (fileName != 0)
+	if (fileName)
 	{
 		input = fopen(fileName, "r");
 		if (input == NULL)
 		{
 			Fatal("could not open %s file\n", fileName);
-			return;
 		}
 	}
 	else
@@ -95,7 +79,9 @@ int main(int argc, char **argv)
 		input = stdin;
 	}
 
-	return;
+	processFile(input,sortReal,sortDecimal,sortString);
+
+	return 0;
 	}
 
 void printAuthor()
@@ -116,23 +102,40 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 	}
 
-int ProcessFile(FILE *fp)
+int ProcessFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
 	{
 		printf("processFile\n");	
-		char *s;
+    queue *inputQueue = 0;
+    queue *outputQueue = 0;
 
-		while (s = readLine(fp))
-		{
-			printf("<%s>\n", s);
+		//initialize queues with display function
+		if (sortReal) {
+			inputQueue = newQueue(displayReal);
+			outputQueue = newQueue(displayReal);
+
+			while (r = readReal(fp))
+			{
+				enqueue(r);
+			}
 		}
 
-		if (s)
+		// same as sort real
+		if (sortDecimal)
 		{
-			printf("free %s\n", s);
-			free(s);
 		}
+
+		if (sortString)
+		{
+		}
+
+		// display queue before sorting
+		displayQueue(stdout,inputQueue);
+
+		// sort queue
+
+		// display queue after sorting
+		displayQueue stdout,outputQueue);
 		
 		fclose(fp);
-		printf("fclose()\n");
 		return 0;
 	}
