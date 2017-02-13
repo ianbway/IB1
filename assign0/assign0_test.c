@@ -161,6 +161,44 @@ main (int argc, char **argv)
         showStackItems(items6);
   printf("items6 size after popping %d\n",sizeStack(items6));
 
+  // tests failed after submit
+  printf("TEST 14\n");
+  dll *a = newDLL(displayInteger);
+  insertDLL(a,0,newInteger(44));
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(17));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(99));
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(27));
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(83));
+  showDLLItems(a);
+  insertDLL(a,5,newInteger(69));
+  showDLLItems(a); 
+
+  printf("TEST 15\n");
+  dll *b = newDLL(displayInteger);
+  insertDLL(b,0,newInteger(57));
+  showDLLItems(b);
+  insertDLL(b,1,newInteger(79));
+  showDLLItems(b);
+  insertDLL(b,2,newInteger(11));
+  showDLLItems(b);
+  insertDLL(b,1,newInteger(1));
+  showDLLItems(b);
+  insertDLL(b,2,newInteger(76));
+  showDLLItems(b);
+  insertDLL(b,3,newInteger(8));
+  showDLLItems(b);
+  removeDLL(b,3);
+  showDLLItems(b); 
+  insertDLL(b,3,newInteger(61));
+  showDLLItems(b);
+  insertDLL(b,3,newInteger(83));
+  showDLLItems(b);
+  insertDLL(b,7,newInteger(50));
+  showDLLItems(b);
 
   return 0;
 }

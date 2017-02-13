@@ -52,9 +52,9 @@ insertDLL(dll *items, int index, void *value) {
     int currentIndex = 0;
     dllnode *currentNode = items->head;
 
-    int goingForward = (items->size / 2) >= index;
+    int goingForward = index < (items->size / 2);
     if (!goingForward) {
-        currentIndex = --items->size;
+        currentIndex = items->size - 1;
         currentNode = items->tail;
     }
     while (currentNode) {
@@ -103,10 +103,11 @@ removeDLL(dll *items, int index) {
     dllnode *currentNode = items->head;
     int currentIndex = 0;
 
-    int goingForward = (items->size / 2) >= index;
+    int goingForward = index < (items->size / 2);
     if (!goingForward) {
         currentIndex = items->size - 1;
         currentNode = items->tail;
+        printf("going backward\n");
     }
 
     while (currentNode) {
@@ -114,7 +115,7 @@ removeDLL(dll *items, int index) {
         if (index == currentIndex) {
             //update previous node to point to next
             currentNode->previous = currentNode->next;
-
+            printf("set currentnode->prev to next\n");            
             //deleted first item, update head
             if (currentIndex == 0) {
                 items->head = currentNode->next;
@@ -138,6 +139,7 @@ removeDLL(dll *items, int index) {
         }
     }
 
+    printf("remove called\n");
     return removedNode->value;
 
 }
