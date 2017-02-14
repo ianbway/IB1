@@ -31,5 +31,7 @@
 # Debug files
 *.dSYM/
 *.su
+
+*.swp
 #Project files
 assign0_test

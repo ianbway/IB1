@@ -39,6 +39,10 @@ insertDLL(dll *items, int index, void *value) {
         items->head = newNode;
         items->tail = newNode;
         items->size++;
+
+     //       printf("insert at front ");
+      //      displayDLL(stdout,items);
+       //     printf("\n");
         return;
     }
 
@@ -47,6 +51,9 @@ insertDLL(dll *items, int index, void *value) {
         newNode->previous = items->tail;
         items->tail = newNode;
         items->size++;
+        //    printf("insert at end ");
+         //   displayDLL(stdout,items);
+          //  printf("\n");
         return;
     }
 
@@ -81,13 +88,19 @@ insertDLL(dll *items, int index, void *value) {
                 items->tail = newNode;
             }
 						int prevVal = -1;
+
 						if (newNode->previous)
 							prevVal = getInteger((integer*)newNode->previous->value);
+
 						int nextVal = -1;
 							nextVal = getInteger((integer*)newNode->next->value);
 
 		//fprintf(stdout, "insertDLL  %d < %d > %d \n",prevVal,getInteger((integer*)newNode->value),nextVal);
             ++items->size;
+
+            //printf("insert ");
+            //displayDLL(stdout,items);
+            //printf("\n");
             break;
         }
 
@@ -127,13 +140,17 @@ removeDLL(dll *items, int index) {
     while (currentNode) {
         //found desired node to remove
         if (index == currentIndex) {
+            //printf("before remove ");
+            //displayDLL(stdout,items);
+            //printf("\n");
+
+            //update previous/next nodes to remove reference to current node
+            if (currentNode->previous)
+              currentNode->previous->next = currentNode->next;
+
 						//point next node to previous
 						if (currentNode->next)
 							currentNode->next->previous = currentNode->previous;
-
-						//point previous node to the next node
-						if (currentNode->previous)
-            	currentNode->previous = currentNode->next;
 
             //printf("set currentnode->prev to next\n");
             //deleted first item, update head
@@ -146,6 +163,9 @@ removeDLL(dll *items, int index) {
             }
 
             --items->size;
+            //printf("after remove ");
+            //displayDLL(stdout,items);
+            //printf("\n");
             removedNode = currentNode;
             break;
         }
