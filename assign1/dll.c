@@ -54,7 +54,7 @@ insertDLL(dll *items, int index, void *value) {
 
     int goingForward = (items->size / 2) >= index;
     if (!goingForward) {
-        currentIndex = --items->size;
+        currentIndex = items->size - 1;
         currentNode = items->tail;
     }
     while (currentNode) {

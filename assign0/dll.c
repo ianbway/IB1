@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "dll.h"
+#include "integer.h"
 
 /* Ian Braudaway */
 
@@ -52,22 +53,25 @@ insertDLL(dll *items, int index, void *value) {
     int currentIndex = 0;
     dllnode *currentNode = items->head;
 
-		// determine whether to start at the front or back of list
+		// determine whether to start search at head or tail
     int goingForward = index <= (items->size / 2);
     if (!goingForward) {
         currentIndex = items->size - 1;
         currentNode = items->tail;
     }
 
+		//fprintf(stdout, "insertDLL value:%d goingForward %d currentIndex %d index %d size %d\n",getInteger((integer*) value),goingForward,currentIndex,index,items->size);
     while (currentNode) {
         if (currentIndex == index) {
-            newNode->next = currentNode;
-            newNode->previous = currentNode->previous;
-            // currentNode->previous may be null
-            if (currentNode->previous) {
-                currentNode->previous->next = newNode;
-            }
-            currentNode->previous = newNode;
+
+						newNode->next = currentNode;
+						newNode->previous = currentNode->previous;
+							// currentNode->previous may be null, so check
+							if (currentNode->previous) {
+									currentNode->previous->next = newNode;
+							}
+
+							currentNode->previous = newNode;
 
             if (currentIndex == 0) {
                 items->head = newNode;
@@ -76,7 +80,13 @@ insertDLL(dll *items, int index, void *value) {
             if (currentIndex == items->size) {
                 items->tail = newNode;
             }
+						int prevVal = -1;
+						if (newNode->previous)
+							prevVal = getInteger((integer*)newNode->previous->value);
+						int nextVal = -1;
+							nextVal = getInteger((integer*)newNode->next->value);
 
+		//fprintf(stdout, "insertDLL  %d < %d > %d \n",prevVal,getInteger((integer*)newNode->value),nextVal);
             ++items->size;
             break;
         }
@@ -105,19 +115,27 @@ removeDLL(dll *items, int index) {
     dllnode *currentNode = items->head;
     int currentIndex = 0;
 
-		// determine whether to start at the front or back of list
+		// determine whether to start search at head or tail
     int goingForward = index <= (items->size / 2);
     if (!goingForward) {
         currentIndex = items->size - 1;
         currentNode = items->tail;
+        //printf("going backward\n");
     }
 
+		//fprintf(stdout, "removeDLL goingForward %d currentIndex %d index %d size %d\n",goingForward,currentIndex,index,items->size);
     while (currentNode) {
         //found desired node to remove
         if (index == currentIndex) {
-            //update previous node to point to next
-            currentNode->previous = currentNode->next;
+						//point next node to previous
+						if (currentNode->next)
+							currentNode->next->previous = currentNode->previous;
 
+						//point previous node to the next node
+						if (currentNode->previous)
+            	currentNode->previous = currentNode->next;
+
+            //printf("set currentnode->prev to next\n");
             //deleted first item, update head
             if (currentIndex == 0) {
                 items->head = currentNode->next;
@@ -141,6 +159,7 @@ removeDLL(dll *items, int index) {
         }
     }
 
+    printf("remove called\n");
     return removedNode->value;
 
 }
