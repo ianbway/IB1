@@ -52,11 +52,13 @@ insertDLL(dll *items, int index, void *value) {
     int currentIndex = 0;
     dllnode *currentNode = items->head;
 
-    int goingForward = (items->size / 2) >= index;
+		// determine whether to start at the front or back of list
+    int goingForward = index <= (items->size / 2);
     if (!goingForward) {
-        currentIndex = --items->size;
+        currentIndex = items->size - 1;
         currentNode = items->tail;
     }
+
     while (currentNode) {
         if (currentIndex == index) {
             newNode->next = currentNode;
@@ -103,7 +105,8 @@ removeDLL(dll *items, int index) {
     dllnode *currentNode = items->head;
     int currentIndex = 0;
 
-    int goingForward = (items->size / 2) >= index;
+		// determine whether to start at the front or back of list
+    int goingForward = index <= (items->size / 2);
     if (!goingForward) {
         currentIndex = items->size - 1;
         currentNode = items->tail;
