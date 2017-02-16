@@ -67,9 +67,9 @@ insertDLL(dll *items, int index, void *value) {
             // currentNode->previous may be null, so check
             if (currentNode->previous) {
                 currentNode->previous->next = newNode;
-                                       }
+            }
 
-							currentNode->previous = newNode;
+            currentNode->previous = newNode;
 
             if (currentIndex == 0) {
                 items->head = newNode;
@@ -78,13 +78,13 @@ insertDLL(dll *items, int index, void *value) {
             if (currentIndex == items->size) {
                 items->tail = newNode;
             }
-						int prevVal = -1;
+            int prevVal = -1;
 
-						if (newNode->previous)
-							prevVal = getInteger((integer*)newNode->previous->value);
+            if (newNode->previous)
+                prevVal = getInteger((integer *) newNode->previous->value);
 
-						int nextVal = -1;
-							nextVal = getInteger((integer*)newNode->next->value);
+            int nextVal = -1;
+            nextVal = getInteger((integer *) newNode->next->value);
 
             ++items->size;
 
@@ -115,7 +115,7 @@ removeDLL(dll *items, int index) {
     dllnode *currentNode = items->head;
     int currentIndex = 0;
 
-		// determine whether to start search at head or tail
+    // determine whether to start search at head or tail
     int goingForward = index <= (items->size / 2);
     if (!goingForward) {
         currentIndex = items->size - 1;
@@ -128,11 +128,11 @@ removeDLL(dll *items, int index) {
 
             //update previous/next nodes to remove reference to current node
             if (currentNode->previous)
-              currentNode->previous->next = currentNode->next;
+                currentNode->previous->next = currentNode->next;
 
-						//point next node to previous
-						if (currentNode->next)
-							currentNode->next->previous = currentNode->previous;
+            //point next node to previous
+            if (currentNode->next)
+                currentNode->next->previous = currentNode->previous;
 
             //deleted first item, update head
             if (currentIndex == 0) {
