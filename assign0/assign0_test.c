@@ -5,6 +5,7 @@
 #include "queue.h"
 #include "stack.h"
 #include "integer.h"
+#include "real.h"
 
 static void
 showItems (sll * items)
@@ -161,21 +162,21 @@ main (int argc, char **argv)
         showStackItems(items6);
   printf("items6 size after popping %d\n",sizeStack(items6));
 
-  // tests failed after submit
+  /* tests failed after submit
   printf("TEST 14\n");
   dll *a = newDLL(displayInteger);
   insertDLL(a,0,newInteger(44));
-  //showDLLItems(a);
+  showDLLItems(a);
   insertDLL(a,0,newInteger(17));
-  //showDLLItems(a);
+  showDLLItems(a);
   insertDLL(a,2,newInteger(99));
-  //showDLLItems(a);
+  showDLLItems(a);
   insertDLL(a,3,newInteger(27));
-  //showDLLItems(a);
+  showDLLItems(a);
   insertDLL(a,3,newInteger(83));
-  //showDLLItems(a);
+  showDLLItems(a);
   insertDLL(a,5,newInteger(69));
-  //showDLLItems(a); 
+  showDLLItems(a); 
 
   printf("TEST 15\n");
   dll *b = newDLL(displayInteger);
@@ -199,92 +200,207 @@ main (int argc, char **argv)
   showDLLItems(b);
   insertDLL(b,7,newInteger(50));
   showDLLItems(b);
+  */
 
-        printf("Test14\n");
-		a = newDLL(displayInteger);
-    insertDLL(a,0,newInteger(44));
-    insertDLL(a,0,newInteger(17));
-    insertDLL(a,2,newInteger(99));
-    insertDLL(a,3,newInteger(27));
-    insertDLL(a,3,newInteger(83));
-    insertDLL(a,5,newInteger(69));
+  printf("Test14\n");
+  dll *a = newDLL(displayInteger);
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(44));
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(17));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(99));
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(27));
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(83));
+  showDLLItems(a);
+  insertDLL(a,5,newInteger(69));
+  showDLLItems(a);
 
-        printf("Test15\n");
+  /*
+  printf("Test15\n");
+  a = newDLL(displayInteger);
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(57));
+  showDLLItems(a);
+  insertDLL(a,1,newInteger(79));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(11));
+  showDLLItems(a);
+  insertDLL(a,1,newInteger(1));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(76));
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(8));
+  showDLLItems(a);
+  removeDLL(a,3);
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(61));
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(83));
+  showDLLItems(a);
+  insertDLL(a,7,newInteger(50));
+  showDLLItems(a);
+  
+    
+    
+  printf("Test16\n");
+  a = newDLL(displayInteger);
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(70));
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(76));
+  showDLLItems(a);
+  removeDLL(a,0);
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(97));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(22));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(63));
+  showDLLItems(a);
+  removeDLL(a,1);
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(44));
+  showDLLItems(a);
+  */
+
+  
+  /*printf("Test17\n");
+  a = newDLL(displayInteger);
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(76));
+  showDLLItems(a);
+  insertDLL(a,1,newInteger(87));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(45));
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(77));
+  showDLLItems(a);
+  insertDLL(a,4,newInteger(26));
+  showDLLItems(a);
+  removeDLL(a,1);
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(3));
+  showDLLItems(a);
+  insertDLL(a,5,newInteger(56));
+  showDLLItems(a);
+  */
+
+  /*
+  printf("Test18\n");
+  a = newDLL(displayInteger);
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(58));
+  showDLLItems(a);
+  removeDLL(a,0);
+  insertDLL(a,0,newInteger(62));
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(81));
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(47));
+  showDLLItems(a);
+  insertDLL(a,1,newInteger(9));
+  showDLLItems(a);
+  insertDLL(a,4,newInteger(79));
+  showDLLItems(a);
+  removeDLL(a,1);
+  showDLLItems(a);
+  insertDLL(a,4,newInteger(51));
+  showDLLItems(a);
+  insertDLL(a,1,newInteger(60));
+  showDLLItems(a);
+  insertDLL(a,5,newInteger(4));
+  showDLLItems(a);
+  insertDLL(a,6,newInteger(15));
+  showDLLItems(a);
+  insertDLL(a,7,newInteger(63));
+  showDLLItems(a);
+  insertDLL(a,8,newInteger(4));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(54));
+  showDLLItems(a);
+  removeDLL(a,8);
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(29));
+  showDLLItems(a);
+  removeDLL(a,2);
+  showDLLItems(a);
+  removeDLL(a,2);
+  showDLLItems(a);
+  insertDLL(a,5,newInteger(33));
+  showDLLItems(a);
+  removeDLL(a,8);
+  showDLLItems(a);
+  */
+
+  /*
+  printf("Test19\n");
+  a = newDLL(displayInteger);
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(19));
+  showDLLItems(a);
+  insertDLL(a,1,newInteger(60));
+  showDLLItems(a);
+  removeDLL(a,0);
+  showDLLItems(a);
+  removeDLL(a,0);
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(69));
+  showDLLItems(a);
+  insertDLL(a,1,newInteger(52));
+  showDLLItems(a);
+  insertDLL(a,0,newInteger(94));
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(39));
+  showDLLItems(a);
+  insertDLL(a,3,newInteger(94));
+  showDLLItems(a);
+  insertDLL(a,2,newInteger(90));
+  showDLLItems(a);
+  insertDLL(a,6,newInteger(79));
+  showDLLItems(a);
 
 
-	a = newDLL(displayInteger);
-    insertDLL(a,0,newInteger(57));
-    insertDLL(a,1,newInteger(79));
-    insertDLL(a,2,newInteger(11));
-    insertDLL(a,1,newInteger(1));
-    insertDLL(a,2,newInteger(76));
-    insertDLL(a,3,newInteger(8));
-    removeDLL(a,3);
-    insertDLL(a,3,newInteger(61));
-    insertDLL(a,3,newInteger(83));
-    insertDLL(a,7,newInteger(50));
-
-        printf("Test16\n");
-a = newDLL(displayInteger);
-    insertDLL(a,0,newInteger(70));
-    insertDLL(a,0,newInteger(76));
-    removeDLL(a,0);
-    insertDLL(a,0,newInteger(97));
-    insertDLL(a,2,newInteger(22));
-    insertDLL(a,2,newInteger(63));
-    removeDLL(a,1);
-    insertDLL(a,3,newInteger(44));
-
-        printf("Test17\n");
-a = newDLL(displayInteger);
-    insertDLL(a,0,newInteger(76));
-    insertDLL(a,1,newInteger(87));
-    insertDLL(a,2,newInteger(45));
-    insertDLL(a,0,newInteger(77));
-    insertDLL(a,4,newInteger(26));
-    removeDLL(a,1);
-    insertDLL(a,3,newInteger(3));
-    insertDLL(a,5,newInteger(56));
-
-
-        printf("Test18\n");
-a = newDLL(displayInteger);
-    insertDLL(a,0,newInteger(58));
-    removeDLL(a,0);
-    insertDLL(a,0,newInteger(62));
-    insertDLL(a,0,newInteger(81));
-    insertDLL(a,0,newInteger(47));
-    insertDLL(a,1,newInteger(9));
-    insertDLL(a,4,newInteger(79));
-    removeDLL(a,1);
-    insertDLL(a,4,newInteger(51));
-    insertDLL(a,1,newInteger(60));
-    insertDLL(a,5,newInteger(4));
-    insertDLL(a,6,newInteger(15));
-    insertDLL(a,7,newInteger(63));
-    insertDLL(a,8,newInteger(4));
-    insertDLL(a,2,newInteger(54));
-    removeDLL(a,8);
-    insertDLL(a,3,newInteger(29));
-    removeDLL(a,2);
-    removeDLL(a,2);
-    insertDLL(a,5,newInteger(33));
-    removeDLL(a,8);
-
-        printf("Test19\n");
-a = newDLL(displayInteger);
-    insertDLL(a,0,newInteger(19));
-    insertDLL(a,1,newInteger(60));
-    removeDLL(a,0);
-    removeDLL(a,0);
-    insertDLL(a,0,newInteger(69));
-    insertDLL(a,1,newInteger(52));
-    insertDLL(a,0,newInteger(94));
-    insertDLL(a,3,newInteger(39));
-    insertDLL(a,3,newInteger(94));
-    insertDLL(a,2,newInteger(90));
-    insertDLL(a,6,newInteger(79));
-
+  printf("Test20\n");
+  a = newDLL(displayInteger);
+  showDLLItems(a);
+  dll *b = newDLL(displayInteger);
+  showDLLItems(b);
+  */
+  
+  printf("Test21\n");
+  a = newDLL(displayReal);
+  showDLLItems(a);
+  insertDLL(a,0,newReal(34.400000));
+  showDLLItems(a);
+  insertDLL(a,1,newReal(2.400000));
+  showDLLItems(a);
+  removeDLL(a,1);
+  showDLLItems(a);
+  insertDLL(a,1,newReal(17.400000));
+  showDLLItems(a);
+  insertDLL(a,0,newReal(11.700000));
+  showDLLItems(a);
+  insertDLL(a,1,newReal(83.300000));
+  showDLLItems(a);
+  insertDLL(a,2,newReal(58.200000));
+  showDLLItems(a);
+  insertDLL(a,3,newReal(33.400000));
+  showDLLItems(a);
+  removeDLL(a,0);
+  showDLLItems(a);
+  insertDLL(a,3,newReal(1.300000));
+  showDLLItems(a);
+  removeDLL(a,3);
+  showDLLItems(a);
+  removeDLL(a,1);
+  showDLLItems(a);
+  insertDLL(a,0,newReal(26.800000));
+  showDLLItems(a);
+  insertDLL(a,5,newReal(0.600000));
+  showDLLItems(a);  
 
 return 0;
 }

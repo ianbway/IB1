@@ -39,10 +39,6 @@ insertDLL(dll *items, int index, void *value) {
         items->head = newNode;
         items->tail = newNode;
         items->size++;
-
-     //       printf("insert at front ");
-      //      displayDLL(stdout,items);
-       //     printf("\n");
         return;
     }
 
@@ -51,32 +47,27 @@ insertDLL(dll *items, int index, void *value) {
         newNode->previous = items->tail;
         items->tail = newNode;
         items->size++;
-        //    printf("insert at end ");
-         //   displayDLL(stdout,items);
-          //  printf("\n");
         return;
     }
 
     int currentIndex = 0;
     dllnode *currentNode = items->head;
 
-		// determine whether to start search at head or tail
+    // determine whether to start search at head or tail
     int goingForward = index <= (items->size / 2);
     if (!goingForward) {
         currentIndex = items->size - 1;
         currentNode = items->tail;
     }
 
-		//fprintf(stdout, "insertDLL value:%d goingForward %d currentIndex %d index %d size %d\n",getInteger((integer*) value),goingForward,currentIndex,index,items->size);
     while (currentNode) {
         if (currentIndex == index) {
-
-						newNode->next = currentNode;
-						newNode->previous = currentNode->previous;
-							// currentNode->previous may be null, so check
-							if (currentNode->previous) {
-									currentNode->previous->next = newNode;
-							}
+            newNode->next = currentNode;
+            newNode->previous = currentNode->previous;
+            // currentNode->previous may be null, so check
+            if (currentNode->previous) {
+                currentNode->previous->next = newNode;
+                                       }
 
 							currentNode->previous = newNode;
 
@@ -95,12 +86,8 @@ insertDLL(dll *items, int index, void *value) {
 						int nextVal = -1;
 							nextVal = getInteger((integer*)newNode->next->value);
 
-		//fprintf(stdout, "insertDLL  %d < %d > %d \n",prevVal,getInteger((integer*)newNode->value),nextVal);
             ++items->size;
 
-            //printf("insert ");
-            //displayDLL(stdout,items);
-            //printf("\n");
             break;
         }
 
@@ -133,16 +120,11 @@ removeDLL(dll *items, int index) {
     if (!goingForward) {
         currentIndex = items->size - 1;
         currentNode = items->tail;
-        //printf("going backward\n");
     }
 
-		//fprintf(stdout, "removeDLL goingForward %d currentIndex %d index %d size %d\n",goingForward,currentIndex,index,items->size);
     while (currentNode) {
         //found desired node to remove
         if (index == currentIndex) {
-            //printf("before remove ");
-            //displayDLL(stdout,items);
-            //printf("\n");
 
             //update previous/next nodes to remove reference to current node
             if (currentNode->previous)
@@ -152,7 +134,6 @@ removeDLL(dll *items, int index) {
 						if (currentNode->next)
 							currentNode->next->previous = currentNode->previous;
 
-            //printf("set currentnode->prev to next\n");
             //deleted first item, update head
             if (currentIndex == 0) {
                 items->head = currentNode->next;
@@ -163,9 +144,6 @@ removeDLL(dll *items, int index) {
             }
 
             --items->size;
-            //printf("after remove ");
-            //displayDLL(stdout,items);
-            //printf("\n");
             removedNode = currentNode;
             break;
         }

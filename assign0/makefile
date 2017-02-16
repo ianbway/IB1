@@ -5,7 +5,7 @@ OPTS = -Wall -Wextra -std=c99 -g -c
 LOPTS = -Wall -Wextra -g
 CC = gcc
 
-$(TARGET) : $(TARGET).o sll.o dll.o queue.o stack.o integer.o
+$(TARGET) : $(TARGET).o sll.o dll.o queue.o stack.o integer.o real.o
 	$(CC)  $(LOPTS)  $(OBJS) -o $(TARGET)
 
 $(TARGET).o : $(TARGET).c 
@@ -16,6 +16,9 @@ sll.o : sll.c sll.h
 
 integer.o : integer.c integer.h
 	$(CC) $(OPTS) -c integer.c
+
+real.o : real.c real.h
+	$(CC) $(OPTS) -c real.c
 
 dll.o : dll.c dll.h
 	$(CC) $(OPTS) -c dll.c
