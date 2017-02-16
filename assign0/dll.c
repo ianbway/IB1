@@ -78,13 +78,6 @@ insertDLL(dll *items, int index, void *value) {
             if (currentIndex == items->size) {
                 items->tail = newNode;
             }
-            int prevVal = -1;
-
-            if (newNode->previous)
-                prevVal = getInteger((integer *) newNode->previous->value);
-
-            int nextVal = -1;
-            nextVal = getInteger((integer *) newNode->next->value);
 
             ++items->size;
 
@@ -157,7 +150,6 @@ removeDLL(dll *items, int index) {
         }
     }
 
-    printf("remove called\n");
     return removedNode->value;
 
 }

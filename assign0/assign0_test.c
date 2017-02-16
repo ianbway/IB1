@@ -198,7 +198,7 @@ main(int argc, char **argv) {
 
 
     printf("Test14\n");
-    dll *a = newDLL(displayInteger);
+    a = newDLL(displayInteger);
     showDLLItems(a);
     insertDLL(a, 0, newInteger(44));
     showDLLItems(a);
@@ -352,14 +352,6 @@ main(int argc, char **argv) {
     showDLLItems(a);
     insertDLL(a, 6, newInteger(79));
     showDLLItems(a);
-
-
-    printf("Test20\n");
-    a = newDLL(displayInteger);
-    showDLLItems(a);
-    dll *b = newDLL(displayInteger);
-    showDLLItems(b);
-
 
     printf("Test21\n");
     a = newDLL(displayReal);
