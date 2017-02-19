@@ -132,7 +132,7 @@ removeDLL(dll *items, int index) {
                 items->head = currentNode->next;
             }
             //deleted last item, update tail
-            if (currentIndex == items->size) {
+            if (currentIndex == items->size- 1) {
                 items->tail = currentNode->previous;
             }
 
