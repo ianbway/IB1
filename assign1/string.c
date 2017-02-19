@@ -4,7 +4,7 @@
 #include "string.h"
 
 string *
-newString (int x)
+newString (char* x)
 {
   string *p = malloc (sizeof (string));
   if (p == 0)
@@ -16,16 +16,16 @@ newString (int x)
   return p;
 }
 
-int
+char*
 getString (string * v)
 {
   return v->value;
 }
 
-int
-setString (string * v, int x)
+char*
+setString (string * v, char* x)
 {
-  int old = v->value;
+  char* old = v->value;
   v->value = x;
   return old;
 }
@@ -33,10 +33,10 @@ setString (string * v, int x)
 void
 displayString (FILE * fp, void *v)
 {
-  fprintf (fp, "%d", getString ((string *) v));
+  fprintf (fp, "%s", getString ((string *) v));
 }
 
-int
+char*
 compareString (void *v, void *w)
 {
   return ((string *) v)->value - ((string *) w)->value;

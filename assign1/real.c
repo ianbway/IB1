@@ -4,7 +4,7 @@
 #include "real.h"
 
 real *
-newReal (int x)
+newReal (double x)
 {
   real *p = malloc (sizeof (real));
   if (p == 0)
@@ -16,16 +16,16 @@ newReal (int x)
   return p;
 }
 
-int
+double
 getReal (real * v)
 {
   return v->value;
 }
 
-int
-setReal (real * v, int x)
+double
+setReal (real * v, double x)
 {
-  int old = v->value;
+  double old = v->value;
   v->value = x;
   return old;
 }
@@ -33,10 +33,10 @@ setReal (real * v, int x)
 void
 displayReal (FILE * fp, void *v)
 {
-  fprintf (fp, "%d", getReal ((real *) v));
+  fprintf (fp, "%f", getReal ((real *) v));
 }
 
-int
+double
 compareReal (void *v, void *w)
 {
   return ((real *) v)->value - ((real *) w)->value;

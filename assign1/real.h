@@ -5,14 +5,14 @@
 
 typedef struct real
 {
-  int value;
+  double value;
 } real;
 
-extern real *newReal (int);
-extern int getReal (real *);
-extern int setReal (real *, int);
+extern real *newReal (double);
+extern double getReal (real *);
+extern double setReal (real *, double);
 extern void displayReal (FILE *, void *);
-extern int compareReal (void *, void *);
+extern double compareReal (void *, void *);
 extern void freeReal (real *);
 
 #define PINFINITY IN_MAX

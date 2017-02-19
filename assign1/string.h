@@ -5,14 +5,14 @@
 
 typedef struct string
 {
-  int value;
+  char* value;
 } string;
 
-extern string *newString (int);
-extern int getString (string *);
-extern int setString (string *, int);
+extern string *newString (char*);
+extern char* getString (string *);
+extern char* setString (string *, char*);
 extern void displayString (FILE *, void *);
-extern int compareString (void *, void *);
+extern char* compareString (void *, void *);
 extern void freeString (string *);
 
 #define PINFINITY IN_MAX

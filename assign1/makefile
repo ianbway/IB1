@@ -1,11 +1,11 @@
 # makefile for assignment 0
-#TARGET = sqsort_test
+TARGET = assign1_test
 OBJS = *.o
 OPTS = -Wall -Wextra -std=c99 -g -c
 LOPTS = -Wall -Wextra -g
 CC = gcc
 
-# $(TARGET) : $(TARGET).o sll.o dll.o queue.o stack.o integer.o
+$(TARGET) : $(TARGET).o sll.o dll.o queue.o stack.o integer.o real.o string.o
 	$(CC)  $(LOPTS)  $(OBJS) -o $(TARGET)
 
 $(TARGET).o : $(TARGET).c 
@@ -13,6 +13,12 @@ $(TARGET).o : $(TARGET).c
 
 sll.o : sll.c sll.h
 	$(CC) $(OPTS) -c sll.c
+
+real.o : real.c real.h
+	$(CC) $(OPTS) -c real.c
+
+string.o : string.c string.h
+	$(CC) $(OPTS) -c string.c
 
 integer.o : integer.c integer.h
 	$(CC) $(OPTS) -c integer.c

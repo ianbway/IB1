@@ -13,7 +13,7 @@ void Fatal(char *,...);
 void printAuthor();
 void printPostfix();
 void printResult();
-int processFile(FILE *,int,int,int);
+int processFile(FILE *,double,int,char*);
 
 int main(int argc, char **argv)
 	{
@@ -102,11 +102,11 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 	}
 
-int ProcessFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
+int ProcessFile(FILE *fp, double sortReal, int sortDecimal, char* sortString)
 	{
-		printf("processFile\n");	
-    queue *inputQueue = 0;
-    queue *outputQueue = 0;
+	printf("processFile\n");	
+    	queue *inputQueue = 0;
+    	queue *outputQueue = 0;
 
 		//initialize queues with display function
 		if (sortReal) {
@@ -134,7 +134,7 @@ int ProcessFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
 		// sort queue
 
 		// display queue after sorting
-		displayQueue stdout,outputQueue);
+		displayQueue(stdout,outputQueue);
 		
 		fclose(fp);
 		return 0;
