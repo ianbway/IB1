@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 	int printAuthorOption = 0;
 	int sortDecimal = 0;
 	int sortReal = 0;
-	char *sortString = 0;
+	int sortString = 0;
 	FILE *input;
 
 	while (argIndex < argc)
@@ -102,7 +102,7 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 	}
 
-int ProcessFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
+int processFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
 	{
 	printf("processFile\n");	
     	queue *inputQueue = 0;
@@ -114,9 +114,9 @@ int ProcessFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
 			inputQueue = newQueue(displayReal);
 			outputQueue = newQueue(displayReal);
 
-			while (r = readReal(fp))
+			while ((r = readReal(fp)))
 			{
-				enqueue(r, inputQueue);
+				enqueue(inputQueue, newReal(r));
 			}
 		}
 
@@ -124,12 +124,12 @@ int ProcessFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
 		if (sortDecimal)
 		{
 			int d = 0;
-			inputQueue = newQueue(displayDecimal);
-			outputQueue = newQueue(displayDecimal);
+			inputQueue = newQueue(displayInteger);
+			outputQueue = newQueue(displayInteger);
 
-			while (d = readInt(fp))
+			while ((d = readInt(fp)))
 			{
-				enqueue(d, inputQueue);
+				enqueue(inputQueue, newInteger(d));
 			}
 		}
 
@@ -139,9 +139,9 @@ int ProcessFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
 			inputQueue = newQueue(displayString);
 			outputQueue = newQueue(displayString);
 
-			while (s = readString(fp))
+			while ((s = readString(fp)))
 			{
-				enqueue(s, inputQueue);
+				enqueue(inputQueue, newString(s));
 			}
 		}
 
