@@ -36,7 +36,7 @@ displayString (FILE * fp, void *v)
   fprintf (fp, "%s", getString ((string *) v));
 }
 
-char*
+int
 compareString (void *v, void *w)
 {
   return ((string *) v)->value - ((string *) w)->value;

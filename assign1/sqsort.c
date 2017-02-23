@@ -13,7 +13,7 @@ void Fatal(char *,...);
 void printAuthor();
 void printPostfix();
 void printResult();
-int processFile(FILE *,double,int,char*);
+int processFile(FILE *,int,int,int);
 
 int main(int argc, char **argv)
 	{
@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 	int printAuthorOption = 0;
 	int sortDecimal = 0;
 	int sortReal = 0;
-	int sortString = 0;
+	char *sortString = 0;
 	FILE *input;
 
 	while (argIndex < argc)
@@ -102,7 +102,7 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 	}
 
-int ProcessFile(FILE *fp, double sortReal, int sortDecimal, char* sortString)
+int ProcessFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
 	{
 	printf("processFile\n");	
     	queue *inputQueue = 0;
@@ -110,22 +110,39 @@ int ProcessFile(FILE *fp, double sortReal, int sortDecimal, char* sortString)
 
 		//initialize queues with display function
 		if (sortReal) {
+			double r = 0;
 			inputQueue = newQueue(displayReal);
 			outputQueue = newQueue(displayReal);
 
 			while (r = readReal(fp))
 			{
-				enqueue(r);
+				enqueue(r, inputQueue);
 			}
 		}
 
 		// same as sort real
 		if (sortDecimal)
 		{
+			int d = 0;
+			inputQueue = newQueue(displayDecimal);
+			outputQueue = newQueue(displayDecimal);
+
+			while (d = readInt(fp))
+			{
+				enqueue(d, inputQueue);
+			}
 		}
 
 		if (sortString)
 		{
+			char *s = "";
+			inputQueue = newQueue(displayString);
+			outputQueue = newQueue(displayString);
+
+			while (s = readString(fp))
+			{
+				enqueue(s, inputQueue);
+			}
 		}
 
 		// display queue before sorting

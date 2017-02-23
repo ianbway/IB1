@@ -12,7 +12,7 @@ extern real *newReal (double);
 extern double getReal (real *);
 extern double setReal (real *, double);
 extern void displayReal (FILE *, void *);
-extern double compareReal (void *, void *);
+extern int compareReal (void *, void *);
 extern void freeReal (real *);
 
 #define PINFINITY IN_MAX
