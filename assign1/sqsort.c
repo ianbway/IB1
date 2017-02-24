@@ -15,7 +15,7 @@ void Fatal(char *,...);
 void printAuthor();
 void printPostfix();
 void printResult();
-int processFile(FILE *,*Comparator,*Print);
+int processFile(FILE *,char,*Comparator,*Print);
 void sort(*Comparator,*queue,*queue);
 
 int main(int argc, char **argv)
@@ -43,16 +43,16 @@ int main(int argc, char **argv)
 				printAuthorOption = 1;
 				break;
 			case 'd':
-				comp = compareInteger;
-				print = displayInteger;
+				comp = intCompare;
+				print = intPrint;
 				break;
 			case 'r':
-				comp = compareReal;
-				print = displayReal;
+				comp = realCompare;
+				print = realPrint;
 				break;
 			case 's':
-				comp = compareString;
-				print = displayString;
+				comp = stringCompare;
+				print = stringPrint;
 				break;
 			default:
 				Fatal("unknown flag '%s', valid flags are -d, -r, -s and -v\n", arg);
@@ -108,53 +108,54 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 	}
 
-int processFile(FILE *fp, Comparator *comp, Printer *print);
+int processFile(FILE *fp,char type, Comparator *comp, Printer *print);
 	{
     	queue *inputQueue = 0;
     	queue *outputQueue = 0;
+      stack *sortStack = 0;
 
 		//initialize queues with display function
 		inputQueue = newQueue(print);
+		sortStack = newStack(print);
 		outputQueue = newQueue(print);
 
 		//TODO figure out how to process each type separately maybe just pass in a char that tells what type
 		//we are dealing with: 'd','s','r'
-		if (sortReal) {
+    switch (type) {
+      case 'r':
 
-			double r = 0;
-			while ((r = readReal(fp)))
-			{
-				enqueue(inputQueue,newReal(r));
-			}
-		}
-
-		// same as sort real
-		if (sortDecimal)
-		{
-
-			int d = 0;
-			while ((d = readInt(fp)))
-			{
-				enqueue(inputQueue,newInteger(d));
-			}
-		}
-
-		if (sortString)
-		{
-
-			char *s = "";
-			while ((s = readString(fp)))
-			{
-				enqueue(inputQueue,newString(s));
-			}
-		}
+        double r = 0;
+        while (!feof(fp) && (r = readReal(fp)))
+        {
+          enqueue(inputQueue,newReal(r));
+        }
+        break;
+      case 'd':
+        int d = 0;
+        while (!feof(fp) && (d = readInt(fp)))
+        {
+          enqueue(inputQueue,newInteger(d));
+        }
+        break;
+      case 's':
+        char *s = "";
+        while (!feof(fp) && (s = readString(fp)))
+        {
+          enqueue(inputQueue,newString(s));
+        }
+        break;
+    }
 
 		// display queue before sorting
 		displayQueue(stdout,inputQueue);
 		fprintf(stdout,"\n");
 		
 		// sort queue
-		sort(comp,inputQueue,outputQueue);
+		sort(comp,inputQueue,outputQueue,sortStack);
+		sort(comp,outputQueue,inputQueue,sortStack);
+    if (peekQueue(outputQueue)>peekQueue(inputQueue)) {
+		  sort(comp,inputQueue,outputQueue,sortStack);
+    }
 
 		// display queue after sorting
 		displayQueue(stdout,outputQueue);
@@ -163,9 +164,33 @@ int processFile(FILE *fp, Comparator *comp, Printer *print);
 		fclose(fp);
 		return 0;
 	}
-void sort(Comparator *comp, queue *inputQueue, queue *outputQueue)
-{
-//TODO sort according to the bullet points in assign1
-//TODO must use stack here
 
+void sort(Comparator *comp, queue *inputQueue, queue *outputQueue, stack *sortStack)
+{
+  //TODO sort according to the bullet points in assign1
+  //TODO must use stack here
+  while (sizeQueue(inputQueue) > 0) {
+    dequeueItem = dequeue(inputQueue);
+
+    // move item from input to output
+    if (dequeueItem > peekQueue(inputQueue)) {
+      push(sortStack,dequeueItem);
+    }
+
+    // move stack items directly to output queue if input is exhausted
+    if (sizeQueue(inputQueue)==0 && sizeStack(sortStack) > 0) {
+      for (int i - sizeStack(sortStack) -1; i>=0; i--) {
+        enqueue(outputQueue,pop(sortStack));
+      }
+    }
+
+    // move item from stack to output
+    if (sizeStack(sortStack) > 0) {
+
+    }
+
+    // move item from input to stack
+    if (sizeQueue(inputQueue) > 0 && peekQueue(inputQueue) > 
+
+  }
 }
