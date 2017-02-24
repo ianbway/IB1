@@ -153,7 +153,7 @@ int processFile(FILE *fp,char type, Comparator *comp, Printer *print);
 		// sort queue
 		sort(comp,inputQueue,outputQueue,sortStack);
 		sort(comp,outputQueue,inputQueue,sortStack);
-    if (peekQueue(outputQueue)>peekQueue(inputQueue)) {
+    if (comp(peekQueue(outputQueue),peekQueue(inputQueue)) > 0) {
 		  sort(comp,inputQueue,outputQueue,sortStack);
     }
 
@@ -173,7 +173,7 @@ void sort(Comparator *comp, queue *inputQueue, queue *outputQueue, stack *sortSt
     dequeueItem = dequeue(inputQueue);
 
     // move item from input to output
-    if (dequeueItem > peekQueue(inputQueue)) {
+    if (comp(dequeueItem ,peekQueue(inputQueue)) > 0) {
       push(sortStack,dequeueItem);
     }
 
