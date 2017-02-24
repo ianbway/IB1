@@ -8,12 +8,15 @@
 #include "integer.h"
 #include "real.h"
 #include "string.h"
+#include "comparator.h"
+
 
 void Fatal(char *,...);
 void printAuthor();
 void printPostfix();
 void printResult();
-int processFile(FILE *,int,int,int);
+int processFile(FILE *,*Comparator,*Print);
+void sort(*Comparator,*queue,*queue);
 
 int main(int argc, char **argv)
 	{
@@ -22,9 +25,9 @@ int main(int argc, char **argv)
 	char *arg;
 	char *fileName = 0;
 	int printAuthorOption = 0;
-	int sortDecimal = 0;
-	int sortReal = 0;
-	int sortString = 0;
+		Comparator comp;
+		Printer print;
+
 	FILE *input;
 
 	while (argIndex < argc)
@@ -40,13 +43,16 @@ int main(int argc, char **argv)
 				printAuthorOption = 1;
 				break;
 			case 'd':
-				sortDecimal = 1;
+				comp = compareInteger;
+				print = displayInteger;
 				break;
 			case 'r':
-				sortReal = 1;
+				comp = compareReal;
+				print = displayReal;
 				break;
 			case 's':
-				sortString = 1;
+				comp = compareString;
+				print = displayString;
 				break;
 			default:
 				Fatal("unknown flag '%s', valid flags are -d, -r, -s and -v\n", arg);
@@ -79,7 +85,7 @@ int main(int argc, char **argv)
 		input = stdin;
 	}
 
-	processFile(input,sortReal,sortDecimal,sortString);
+	processFile(input,comp,print);
 
 	return 0;
 	}
@@ -102,57 +108,64 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 	}
 
-int processFile(FILE *fp, int sortReal, int sortDecimal, int sortString)
+int processFile(FILE *fp, Comparator *comp, Printer *print);
 	{
-	printf("processFile\n");	
     	queue *inputQueue = 0;
     	queue *outputQueue = 0;
 
 		//initialize queues with display function
-		if (sortReal) {
-			double r = 0;
-			inputQueue = newQueue(displayReal);
-			outputQueue = newQueue(displayReal);
+		inputQueue = newQueue(print);
+		outputQueue = newQueue(print);
 
+		//TODO figure out how to process each type separately maybe just pass in a char that tells what type
+		//we are dealing with: 'd','s','r'
+		if (sortReal) {
+
+			double r = 0;
 			while ((r = readReal(fp)))
 			{
-				enqueue(inputQueue, newReal(r));
+				enqueue(inputQueue,newReal(r));
 			}
 		}
 
 		// same as sort real
 		if (sortDecimal)
 		{
-			int d = 0;
-			inputQueue = newQueue(displayInteger);
-			outputQueue = newQueue(displayInteger);
 
+			int d = 0;
 			while ((d = readInt(fp)))
 			{
-				enqueue(inputQueue, newInteger(d));
+				enqueue(inputQueue,newInteger(d));
 			}
 		}
 
 		if (sortString)
 		{
-			char *s = "";
-			inputQueue = newQueue(displayString);
-			outputQueue = newQueue(displayString);
 
+			char *s = "";
 			while ((s = readString(fp)))
 			{
-				enqueue(inputQueue, newString(s));
+				enqueue(inputQueue,newString(s));
 			}
 		}
 
 		// display queue before sorting
 		displayQueue(stdout,inputQueue);
-
+		fprintf(stdout,"\n");
+		
 		// sort queue
+		sort(comp,inputQueue,outputQueue);
 
 		// display queue after sorting
 		displayQueue(stdout,outputQueue);
+		fprintf(stdout,"\n");
 		
 		fclose(fp);
 		return 0;
 	}
+void sort(Comparator *comp, queue *inputQueue, queue *outputQueue)
+{
+//TODO sort according to the bullet points in assign1
+//TODO must use stack here
+
+}

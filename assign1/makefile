@@ -5,7 +5,7 @@ OPTS = -Wall -Wextra -std=c99 -g -c
 LOPTS = -Wall -Wextra -g
 CC = gcc
 
-$(TARGET) : $(TARGET).o sll.o dll.o queue.o stack.o integer.o real.o string.o scanner.o
+$(TARGET) : $(TARGET).o sll.o dll.o queue.o stack.o integer.o real.o string.o scanner.o comparator.o
 	$(CC)  $(LOPTS)  $(OBJS) -o $(TARGET)
 
 $(TARGET).o : $(TARGET).c 
@@ -34,6 +34,9 @@ queue.o : queue.c queue.h
 
 scanner.o : scanner.c scanner.h
 	$(CC) $(OPTS) -c scanner.c
+
+comparator.o : comparator.c comparator.h
+	$(CC) $(OPTS) -c comparator.c
 
 clean :
 	rm -f $(OBJS) $(TARGET)

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <limits.h>
 #include "string.h"
 
@@ -39,7 +40,7 @@ displayString (FILE * fp, void *v)
 int
 compareString (void *v, void *w)
 {
-  return ((string *) v)->value - ((string *) w)->value;
+  return strcmp((string *) v->value,(string *) w->value);
 }
 
 void
