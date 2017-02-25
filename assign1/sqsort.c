@@ -15,8 +15,8 @@ void Fatal(char *,...);
 void printAuthor();
 void printPostfix();
 void printResult();
-int processFile(FILE *,char,*Comparator,*Print);
-void sort(*Comparator,*queue,*queue);
+int processFile(FILE *,char,Comparator,Printer);
+void sort(Comparator, queue *,queue *,stack *);
 
 int main(int argc, char **argv)
 	{
@@ -25,9 +25,9 @@ int main(int argc, char **argv)
 	char *arg;
 	char *fileName = 0;
 	int printAuthorOption = 0;
-		Comparator comp;
-		Printer print;
-
+	Comparator cmp;
+	Printer prt;
+	char type;
 	FILE *input;
 
 	while (argIndex < argc)
@@ -37,22 +37,23 @@ int main(int argc, char **argv)
 		if (arg[0] == '-')
 		{
 			// get char after hyphen
-			switch (arg[1])
+			type=arg[1];
+			switch (type)
 			{
 			case 'v':
 				printAuthorOption = 1;
 				break;
 			case 'd':
-				comp = intCompare;
-				print = intPrint;
+				cmp = intCompare;
+				prt = intPrint;
 				break;
 			case 'r':
-				comp = realCompare;
-				print = realPrint;
+				cmp = realCompare;
+				prt = realPrint;
 				break;
 			case 's':
-				comp = stringCompare;
-				print = stringPrint;
+				cmp = stringCompare;
+				prt = stringPrint;
 				break;
 			default:
 				Fatal("unknown flag '%s', valid flags are -d, -r, -s and -v\n", arg);
@@ -85,7 +86,7 @@ int main(int argc, char **argv)
 		input = stdin;
 	}
 
-	processFile(input,comp,print);
+	processFile(input,type,cmp,prt);
 
 	return 0;
 	}
@@ -108,37 +109,31 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 	}
 
-int processFile(FILE *fp,char type, Comparator *comp, Printer *print);
+int processFile(FILE *fp,char type, Comparator comp, Printer print)
 	{
-    	queue *inputQueue = 0;
-    	queue *outputQueue = 0;
-      stack *sortStack = 0;
-
-		//initialize queues with display function
-		inputQueue = newQueue(print);
-		sortStack = newStack(print);
-		outputQueue = newQueue(print);
+    queue *inputQueue = newQueue(print);
+    queue *outputQueue = newQueue(print);
+    stack *sortStack = newStack(print);
 
 		//TODO figure out how to process each type separately maybe just pass in a char that tells what type
 		//we are dealing with: 'd','s','r'
+		double r;
+		int d;
+		char *s;
     switch (type) {
       case 'r':
-
-        double r = 0;
         while (!feof(fp) && (r = readReal(fp)))
         {
           enqueue(inputQueue,newReal(r));
         }
         break;
       case 'd':
-        int d = 0;
         while (!feof(fp) && (d = readInt(fp)))
         {
           enqueue(inputQueue,newInteger(d));
         }
         break;
       case 's':
-        char *s = "";
         while (!feof(fp) && (s = readString(fp)))
         {
           enqueue(inputQueue,newString(s));
@@ -165,12 +160,12 @@ int processFile(FILE *fp,char type, Comparator *comp, Printer *print);
 		return 0;
 	}
 
-void sort(Comparator *comp, queue *inputQueue, queue *outputQueue, stack *sortStack)
+void sort(Comparator comp, queue *inputQueue, queue *outputQueue, stack *sortStack)
 {
   //TODO sort according to the bullet points in assign1
   //TODO must use stack here
   while (sizeQueue(inputQueue) > 0) {
-    dequeueItem = dequeue(inputQueue);
+    void *dequeueItem = dequeue(inputQueue);
 
     // move item from input to output
     if (comp(dequeueItem ,peekQueue(inputQueue)) > 0) {
@@ -179,7 +174,7 @@ void sort(Comparator *comp, queue *inputQueue, queue *outputQueue, stack *sortSt
 
     // move stack items directly to output queue if input is exhausted
     if (sizeQueue(inputQueue)==0 && sizeStack(sortStack) > 0) {
-      for (int i - sizeStack(sortStack) -1; i>=0; i--) {
+      for (int i = sizeStack(sortStack) -1; i>=0; i--) {
         enqueue(outputQueue,pop(sortStack));
       }
     }
@@ -190,7 +185,7 @@ void sort(Comparator *comp, queue *inputQueue, queue *outputQueue, stack *sortSt
     }
 
     // move item from input to stack
-    if (sizeQueue(inputQueue) > 0 && peekQueue(inputQueue) > 
-
+    if (sizeQueue(inputQueue) > 0 && peekQueue(inputQueue)) {
+		}
   }
 }

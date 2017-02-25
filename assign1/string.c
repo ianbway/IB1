@@ -40,7 +40,9 @@ displayString (FILE * fp, void *v)
 int
 compareString (void *v, void *w)
 {
-  return strcmp((string *) v->value,(string *) w->value);
+	char* s1 = (string)v->value;
+	char* s2 = (string)w->value;
+  return strcmp(s1,s2);
 }
 
 void

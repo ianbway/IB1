@@ -3,14 +3,13 @@
 #include "real.h"
 #include "integer.h"
 
-
-int intComp(void *v, void *w) {
+int intCompare(void *v, void *w) {
   return compareInteger(v,w);
 }
-int realComp(void *v, void *w) {
+int realCompare(void *v, void *w) {
   return compareReal(v,w);
 }
-int stringComp(void *v,void *w) {
+int stringCompare(void *v,void *w) {
   return compareString(v,w);
 }
 
