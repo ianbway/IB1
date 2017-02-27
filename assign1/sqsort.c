@@ -115,11 +115,9 @@ int processFile(FILE *fp,char type, Comparator comp, Printer print)
     queue *outputQueue = newQueue(print);
     stack *sortStack = newStack(print);
 
-		//TODO figure out how to process each type separately maybe just pass in a char that tells what type
-		//we are dealing with: 'd','s','r'
-		double r;
-		int d;
-		char *s;
+	double r;
+	int d;
+	char *s;
     switch (type) {
       case 'r':
         while (!feof(fp) && (r = readReal(fp)))
@@ -164,28 +162,34 @@ void sort(Comparator comp, queue *inputQueue, queue *outputQueue, stack *sortSta
 {
   //TODO sort according to the bullet points in assign1
   //TODO must use stack here
+  void *outputItem = 0;
   while (sizeQueue(inputQueue) > 0) {
     void *dequeueItem = dequeue(inputQueue);
+    printf("%d\n",sizeQueue(inputQueue));
 
     // move item from input to output
-    if (comp(dequeueItem ,peekQueue(inputQueue)) > 0) {
-      push(sortStack,dequeueItem);
+    if (comp(dequeueItem ,peekQueue(inputQueue)) <= 0) {
+      enqueue(outputQueue, dequeueItem);
     }
 
+    // move item from input to stack
+    else
+    {
+      push(sortStack, dequeueItem);      
+    }   
+
+    // move item from stack to output
+    if (sizeStack(sortStack) > 0) {
+      if(comp(peekStack(sortStack),outputItem) < 0 && comp(peekQueue(inputQueue),peekStack(sortStack)) < 0) {
+         enqueue(outputQueue,pop(sortStack));
+      }
+    }
+
+  }
     // move stack items directly to output queue if input is exhausted
     if (sizeQueue(inputQueue)==0 && sizeStack(sortStack) > 0) {
       for (int i = sizeStack(sortStack) -1; i>=0; i--) {
         enqueue(outputQueue,pop(sortStack));
       }
     }
-
-    // move item from stack to output
-    if (sizeStack(sortStack) > 0) {
-
-    }
-
-    // move item from input to stack
-    if (sizeQueue(inputQueue) > 0 && peekQueue(inputQueue)) {
-		}
-  }
 }
