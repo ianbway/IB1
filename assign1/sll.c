@@ -144,7 +144,7 @@ getSLL(sll *items, int index) {
         exit(-1);
     }
 
-    int lastIndex = --items->size;
+    int lastIndex = items->size - 1;
     sllnode *item = 0;
     if (index == 0)  //first item
     {
