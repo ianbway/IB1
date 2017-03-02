@@ -11,22 +11,22 @@
 #include "comparator.h"
 
 
-void Fatal(char *,...);
+void Fatal(char *, ...);
 void printAuthor();
 void printPostfix();
 void printResult();
-int processFile(FILE *,char,Comparator,Printer);
-void sort(Comparator, queue *,queue *,stack *);
+int processFile(FILE *, char, Comparator, Printer);
+void sort(Comparator, queue *, queue *, stack *);
 
 int main(int argc, char **argv)
-	{
+{
 
 	int argIndex = 1; //default to 1 in order to skip executable
 	char *arg;
 	char *fileName = 0;
 	int printAuthorOption = 0;
-	Comparator cmp;
-	Printer prt;
+	Comparator cmp = 0;
+	Printer prt = 0;
 	char type;
 	FILE *input;
 
@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 		if (arg[0] == '-')
 		{
 			// get char after hyphen
-			type=arg[1];
+			type = arg[1];
 			switch (type)
 			{
 			case 'v':
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 			fileName = arg; // assume filename
 		}
 
-		++argIndex;	
+		++argIndex;
 	}
 
 	if (printAuthorOption)
@@ -86,10 +86,10 @@ int main(int argc, char **argv)
 		input = stdin;
 	}
 
-	processFile(input,type,cmp,prt);
+	processFile(input, type, cmp, prt);
 
 	return 0;
-	}
+}
 
 void printAuthor()
 {
@@ -98,98 +98,113 @@ void printAuthor()
 
 // print the error string and return
 void Fatal(char *fmt, ...)
-	{
+{
 	va_list ap;
 
-	fprintf(stderr,"An error occured: ");
-	va_start(ap,fmt);
+	fprintf(stderr, "An error occured: ");
+	va_start(ap, fmt);
 	vfprintf(stderr, fmt, ap);
 	va_end(ap);
 
 	exit(-1);
-	}
+}
 
-int processFile(FILE *fp,char type, Comparator comp, Printer print)
-	{
-    queue *inputQueue = newQueue(print);
-    queue *outputQueue = newQueue(print);
-    stack *sortStack = newStack(print);
+int processFile(FILE *fp, char type, Comparator comp, Printer print)
+{
+	queue *inputQueue = newQueue(print);
+	queue *outputQueue = newQueue(print);
+	stack *sortStack = newStack(print);
 
 	double r;
 	int d;
 	char *s;
-    switch (type) {
-      case 'r':
-        while (!feof(fp) && (r = readReal(fp)))
-        {
-          enqueue(inputQueue,newReal(r));
-        }
-        break;
-      case 'd':
-        while (!feof(fp) && (d = readInt(fp)))
-        {
-          enqueue(inputQueue,newInteger(d));
-        }
-        break;
-      case 's':
-        while (!feof(fp) && (s = readString(fp)))
-        {
-          enqueue(inputQueue,newString(s));
-        }
-        break;
-    }
-
-		// display queue before sorting
-		displayQueue(stdout,inputQueue);
-		fprintf(stdout,"\n");
-		
-		// sort queue
-		sort(comp,inputQueue,outputQueue,sortStack);
-		sort(comp,outputQueue,inputQueue,sortStack);
-    if (comp(peekQueue(outputQueue),peekQueue(inputQueue)) > 0) {
-		  sort(comp,inputQueue,outputQueue,sortStack);
-    }
-
-		// display queue after sorting
-		displayQueue(stdout,outputQueue);
-		fprintf(stdout,"\n");
-		
-		fclose(fp);
-		return 0;
+	switch (type) {
+	case 'r':
+		while (!feof(fp) && (r = readReal(fp)))
+		{
+			enqueue(inputQueue, newReal(r));
+		}
+		break;
+	case 'd':
+		while (!feof(fp) && (d = readInt(fp)))
+		{
+			enqueue(inputQueue, newInteger(d));
+		}
+		break;
+	case 's':
+		while (!feof(fp) && (s = readString(fp)))
+		{
+			enqueue(inputQueue, newString(s));
+		}
+		break;
 	}
+
+	// display queue before sorting
+	displayQueue(stdout, inputQueue);
+	fprintf(stdout, "\n");
+
+	// sort queue
+	sort(comp, inputQueue, outputQueue, sortStack);
+
+	// display queue after sorting
+	displayQueue(stdout, outputQueue);
+	fprintf(stdout, "\n");
+
+	fclose(fp);
+	return 0;
+}
 
 void sort(Comparator comp, queue *inputQueue, queue *outputQueue, stack *sortStack)
 {
-  //TODO sort according to the bullet points in assign1
-  //TODO must use stack here
-  void *outputItem = 0;
-  while (sizeQueue(inputQueue) > 0) {
-    void *dequeueItem = dequeue(inputQueue);
-    printf("%d\n",sizeQueue(inputQueue));
+	int sorted = 0;
+	void *lastOutput = 0;
 
-    // move item from input to output
-    if (comp(dequeueItem ,peekQueue(inputQueue)) <= 0) {
-      enqueue(outputQueue, dequeueItem);
-    }
+	while (!sorted) {
+		int itemPushed = 0;
 
-    // move item from input to stack
-    else
-    {
-      push(sortStack, dequeueItem);      
-    }   
+		while (sizeQueue(inputQueue) > 0) {
+			void *dequeueItem = dequeue(inputQueue);
 
-    // move item from stack to output
-    if (sizeStack(sortStack) > 0) {
-      if(comp(peekStack(sortStack),outputItem) < 0 && comp(peekQueue(inputQueue),peekStack(sortStack)) < 0) {
-         enqueue(outputQueue,pop(sortStack));
-      }
-    }
+			if (dequeueItem != 0) {
+				// move item from input to output
+				if (sizeQueue(inputQueue) == 0 && sizeStack(sortStack) == 0) { //last item
+					enqueue(outputQueue, dequeueItem);
+				} else if (sizeQueue(inputQueue) > 0 && comp(dequeueItem, peekQueue(inputQueue)) <= 0) {
+					enqueue(outputQueue, dequeueItem);
+					lastOutput = dequeueItem;
+				}
+				else //item dequeued is > than item at front of inputQueue
+				{
+					push(sortStack, dequeueItem);
+					itemPushed = 1;
+				}
+			}
 
-  }
-    // move stack items directly to output queue if input is exhausted
-    if (sizeQueue(inputQueue)==0 && sizeStack(sortStack) > 0) {
-      for (int i = sizeStack(sortStack) -1; i>=0; i--) {
-        enqueue(outputQueue,pop(sortStack));
-      }
-    }
+			// move item from stack to output
+			// determine if item on the stack is greater than next item on input and less than the last item place on output
+			int stackLessThanOutput = (lastOutput != 0 && (sizeStack(sortStack) > 0 && comp(peekStack(sortStack), lastOutput) < 0));
+			int inputLessThanStack = (sizeQueue(inputQueue) > 0 && sizeStack(sortStack) > 0 && comp(peekQueue(inputQueue), peekStack(sortStack)) < 0);
+
+			if (stackLessThanOutput && inputLessThanStack) {
+				enqueue(outputQueue, pop(sortStack));
+			}
+
+		}
+
+		// move stack items directly to output queue if input is exhausted
+		if ( sizeStack(sortStack) > 0) {
+			for (int i = sizeStack(sortStack) - 1; i >= 0; i--) {
+				enqueue(outputQueue, pop(sortStack));
+			}
+		}
+		
+		sorted = !itemPushed;
+
+		// Swap queues and resort
+		if (!sorted) {
+			queue *tempQueue = inputQueue;
+			inputQueue = outputQueue;
+			outputQueue = tempQueue;
+		}
+	}
 }

@@ -163,12 +163,12 @@ unionDLL(dll *recipient, dll *donor) {
 void *
 getDLL(dll *items, int index) {
     // validate the index, return error if invalid
-    if (index < 0 || index >= (items->size)) {
+    if (index < 0 || index > (items->size)) {
         fprintf(stderr, "invalid index: %d used\n", index);
         exit(-1);
     }
 
-    int lastIndex = --items->size;
+    int lastIndex = items->size - 1;
     dllnode *foundNode = 0;
     dllnode *currentNode = items->head;
     int currentIndex = 0;
@@ -181,7 +181,7 @@ getDLL(dll *items, int index) {
     } else {
         int goingForward = (items->size / 2) > index;
         if (!goingForward) {
-            currentIndex = --items->size;
+            currentIndex = items->size - 1;
             currentNode = items->tail;
         }
 

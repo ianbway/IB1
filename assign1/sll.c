@@ -139,7 +139,7 @@ unionSLL(sll *recipient, sll *donor) {
 /* Retrieve the value of the sll item and the input index */
 void *
 getSLL(sll *items, int index) {
-    if (index < 0 || index >= (items->size)) {
+    if (index < 0 || index > (items->size)) {
         fprintf(stderr, "invalid index: %d used\n", index);
         exit(-1);
     }
