@@ -154,7 +154,7 @@ int processFile(FILE *fp, char type, Comparator comp, Printer print)
 	return 0;
 }
 
-void sort(Comparator comp, queue *inputQueue, queue *outputQueue, stack *sortStack)
+void sort(Comparator comp, queue *input, queue *output, stack *stack)
 {
 	int sorted = 0;
 	void *lastOutput = 0;
@@ -162,39 +162,45 @@ void sort(Comparator comp, queue *inputQueue, queue *outputQueue, stack *sortSta
 	while (!sorted) {
 		int itemPushed = 0;
 
-		while (sizeQueue(inputQueue) > 0) {
-			void *dequeueItem = dequeue(inputQueue);
+		while (sizeQueue(input) > 0) {
+			void *dequeueItem = dequeue(input);
 
 			if (dequeueItem != 0) {
 				// move item from input to output
-				if (sizeQueue(inputQueue) == 0 && sizeStack(sortStack) == 0) { //last item
-					enqueue(outputQueue, dequeueItem);
-				} else if (sizeQueue(inputQueue) > 0 && comp(dequeueItem, peekQueue(inputQueue)) <= 0) {
-					enqueue(outputQueue, dequeueItem);
+				if (sizeQueue(input) == 0 && sizeStack(stack) == 0) { //last item
+					enqueue(output, dequeueItem);
+				} else if (sizeQueue(input) > 0 && comp(dequeueItem, peekQueue(input)) <= 0) {
+					enqueue(output, dequeueItem);
 					lastOutput = dequeueItem;
 				}
 				else //item dequeued is > than item at front of inputQueue
 				{
-					push(sortStack, dequeueItem);
+					push(stack, dequeueItem);
 					itemPushed = 1;
 				}
 			}
 
 			// move item from stack to output
 			// determine if item on the stack is greater than next item on input and less than the last item place on output
-			int stackLessThanOutput = (lastOutput != 0 && (sizeStack(sortStack) > 0 && comp(peekStack(sortStack), lastOutput) < 0));
-			int inputLessThanStack = (sizeQueue(inputQueue) > 0 && sizeStack(sortStack) > 0 && comp(peekQueue(inputQueue), peekStack(sortStack)) < 0);
+			int stackLessThanOutput = (lastOutput != 0 && (sizeStack(stack) > 0 && comp(peekStack(stack), lastOutput) <= 0));
+			int inputLessThanStack = (sizeQueue(input) > 0 && sizeStack(stack) > 0 && comp(peekQueue(input), peekStack(stack)) <= 0);
 
 			if (stackLessThanOutput && inputLessThanStack) {
-				enqueue(outputQueue, pop(sortStack));
+				enqueue(output, pop(stack));
 			}
-
+			printf("inputQueue:\t");
+			displayQueue(stdout,input);
+			printf("\nsortStack:\t");
+			displayStack(stdout,stack);
+			printf("\noutputQueue:\t");
+			displayQueue(stdout,output);
+			printf("\n");
 		}
 
 		// move stack items directly to output queue if input is exhausted
-		if ( sizeStack(sortStack) > 0) {
-			for (int i = sizeStack(sortStack) - 1; i >= 0; i--) {
-				enqueue(outputQueue, pop(sortStack));
+		if ( sizeStack(stack) > 0) {
+			for (int i = sizeStack(stack) - 1; i >= 0; i--) {
+				enqueue(output, pop(stack));
 			}
 		}
 		
@@ -202,9 +208,18 @@ void sort(Comparator comp, queue *inputQueue, queue *outputQueue, stack *sortSta
 
 		// Swap queues and resort
 		if (!sorted) {
-			queue *tempQueue = inputQueue;
-			inputQueue = outputQueue;
-			outputQueue = tempQueue;
+			queue *tempQueue = input;
+			input = output;
+			output = tempQueue;
+		}
+		else {
+			printf("SORTED inputQueue:\t");
+			displayQueue(stdout,input);
+			printf("\nsortStack:\t");
+			displayStack(stdout,stack);
+			printf("\noutputQueue:\t");
+			displayQueue(stdout,output);
+			printf("\n");
 		}
 	}
 }
