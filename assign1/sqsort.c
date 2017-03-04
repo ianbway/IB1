@@ -188,13 +188,6 @@ void sort(Comparator comp, queue *input, queue *output, stack *stack)
 			if (stackLessThanOutput && inputLessThanStack) {
 				enqueue(output, pop(stack));
 			}
-			printf("inputQueue:\t");
-			displayQueue(stdout,input);
-			printf("\nsortStack:\t");
-			displayStack(stdout,stack);
-			printf("\noutputQueue:\t");
-			displayQueue(stdout,output);
-			printf("\n");
 		}
 
 		// move stack items directly to output queue if input is exhausted
@@ -208,18 +201,7 @@ void sort(Comparator comp, queue *input, queue *output, stack *stack)
 
 		// Swap queues and resort
 		if (!sorted) {
-			queue *tempQueue = input;
-			input = output;
-			output = tempQueue;
-		}
-		else {
-			printf("SORTED inputQueue:\t");
-			displayQueue(stdout,input);
-			printf("\nsortStack:\t");
-			displayStack(stdout,stack);
-			printf("\noutputQueue:\t");
-			displayQueue(stdout,output);
-			printf("\n");
+			unionSLL(input->queueItems,output->queueItems);
 		}
 	}
 }
