@@ -169,7 +169,8 @@ void sort(Comparator comp, queue *input, queue *output, stack *stack)
 				// move item from input to output
 				if (sizeQueue(input) == 0 && sizeStack(stack) == 0) { //last item
 					enqueue(output, dequeueItem);
-				} else if (sizeQueue(input) > 0 && comp(dequeueItem, peekQueue(input)) <= 0) {
+				}
+				else if (sizeQueue(input) > 0 && comp(dequeueItem, peekQueue(input)) <= 0) {
 					enqueue(output, dequeueItem);
 					lastOutput = dequeueItem;
 				}
@@ -191,17 +192,17 @@ void sort(Comparator comp, queue *input, queue *output, stack *stack)
 		}
 
 		// move stack items directly to output queue if input is exhausted
-		if ( sizeStack(stack) > 0) {
+		if (sizeStack(stack) > 0) {
 			for (int i = sizeStack(stack) - 1; i >= 0; i--) {
 				enqueue(output, pop(stack));
 			}
 		}
-		
+
 		sorted = !itemPushed;
 
 		// Swap queues and resort
 		if (!sorted) {
-			unionSLL(input->queueItems,output->queueItems);
+			unionSLL(input->queueItems, output->queueItems);
 		}
 	}
 }
