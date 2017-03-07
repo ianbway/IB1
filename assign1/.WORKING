@@ -1,0 +1,9 @@
+/home/Ian/CS201/assign1
+Fri Mar  3 19:04:06 STD 2017
+assign1_test.c	iwbraudaway@crimson.ua.edu  scanner.c  string.c    t-real1.txt
+comparator.c	jbmResults.txt		    scanner.h  string.h    t-real2.txt
+comparator.h	makefile		    sll.c      t-int1.txt  t-real3.txt
+dll.c		queue.c			    sll.h      t-int2.txt  t-str1.txt
+dll.h		queue.h			    sqsort.c   t-int3.txt  t-str2.txt
+integer.c	real.c			    stack.c    t-int4.txt  t-str3.txt
+integer.h	real.h			    stack.h    t-int5.txt  WORKING

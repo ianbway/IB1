@@ -3,23 +3,14 @@
 #include "real.h"
 #include "integer.h"
 
-int intCompare(void *v, void *w) {
-	return compareInteger(v, w);
-}
-int realCompare(void *v, void *w) {
-	return compareReal(v, w);
-}
-int stringCompare(void *v, void *w) {
-	return compareString(v, w);
-}
+int compareInteger(void *v, void *w);
 
-void intPrint(FILE *fp, void *v) {
-	displayInteger(fp, v);
-}
-void realPrint(FILE *fp, void *v) {
-	displayReal(fp, v);
-}
-void stringPrint(FILE *fp, void *v) {
-	displayString(fp, v);
-}
+int compareReal(void *v, void *w);
 
+int compareString(void *v, void *w);
+
+void displayInteger(FILE *fp, void *v);
+
+void displayReal(FILE *fp, void *v); 
+	
+void displayString(FILE *fp, void *v); 

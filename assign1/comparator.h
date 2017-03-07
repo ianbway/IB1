@@ -6,11 +6,11 @@
 #define __COMPARATOR_INCLUDED__
 typedef int (*Comparator)(void*,void*);
 typedef void (*Printer)(FILE*,void*);
-int intCompare(void *, void *);
-int realCompare(void *, void *);
-int stringCompare(void *,void *);
-void intPrint(FILE *, void *);
-void realPrint(FILE *, void *);
-void stringPrint(FILE *, void *);
+int compareInteger(void *, void *);
+int compareReal(void *, void *);
+int compareString(void *,void *);
+void displayInteger(FILE *, void *);
+void displayReal(FILE *, void *);
+void displayString(FILE *, void *);
 
 #endif

@@ -103,7 +103,7 @@ removeDLL(dll *items, int index) {
     dllnode *currentNode = items->head;
     int currentIndex = 0;
 
-    int goingForward = (items->size / 2) >= index;
+    int goingForward = index <= (items->size / 2);
     if (!goingForward) {
         currentIndex = items->size - 1;
         currentNode = items->tail;
@@ -112,8 +112,14 @@ removeDLL(dll *items, int index) {
     while (currentNode) {
         //found desired node to remove
         if (index == currentIndex) {
-            //update previous node to point to next
-            currentNode->previous = currentNode->next;
+
+            //update previous/next nodes to remove reference to current node
+            if (currentNode->previous)
+                currentNode->previous->next = currentNode->next;
+
+            //point next node to previous
+            if (currentNode->next)
+                currentNode->next->previous = currentNode->previous;
 
             //deleted first item, update head
             if (currentIndex == 0) {

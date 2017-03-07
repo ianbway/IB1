@@ -44,16 +44,16 @@ int main(int argc, char **argv)
 				printAuthorOption = 1;
 				break;
 			case 'd':
-				cmp = intCompare;
-				prt = intPrint;
+				cmp = compareInteger;
+				prt = displayInteger;
 				break;
 			case 'r':
-				cmp = realCompare;
-				prt = realPrint;
+				cmp = compareReal;
+				prt = displayReal;
 				break;
 			case 's':
-				cmp = stringCompare;
-				prt = stringPrint;
+				cmp = compareString;
+				prt = displayString;
 				break;
 			default:
 				Fatal("unknown flag '%s', valid flags are -d, -r, -s and -v\n", arg);
@@ -170,7 +170,7 @@ void sort(Comparator comp, queue *input, queue *output, stack *stack)
 				if (sizeQueue(input) == 0 && sizeStack(stack) == 0) { //last item
 					enqueue(output, dequeueItem);
 				}
-				else if (sizeQueue(input) > 0 && comp(dequeueItem, peekQueue(input)) <= 0) {
+				else if (sizeQueue(input) > 0 && comp(dequeueItem, peekQueue(input)) >= 0) {
 					enqueue(output, dequeueItem);
 					lastOutput = dequeueItem;
 				}
