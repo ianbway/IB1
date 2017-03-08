@@ -31,18 +31,6 @@ setInteger (integer * v, int x)
 }
 
 void
-displayInteger (FILE * fp, void *v)
-{
-  fprintf (fp, "%d", getInteger ((integer *) v));
-}
-
-int
-compareInteger (void *v, void *w)
-{
-  return ((integer *) v)->value - ((integer *) w)->value;
-}
-
-void
 freeInteger (integer * v)
 {
   free (v);

@@ -31,18 +31,6 @@ setReal (real * v, double x)
 }
 
 void
-displayReal (FILE * fp, void *v)
-{
-  fprintf (fp, "%f", getReal ((real *) v));
-}
-
-int
-compareReal (void *v, void *w)
-{
-  return ((real *) v)->value - ((real *) w)->value;
-}
-
-void
 freeReal (real * v)
 {
   free (v);

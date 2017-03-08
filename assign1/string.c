@@ -32,22 +32,6 @@ setString (string * v, char* x)
 }
 
 void
-displayString (FILE * fp, void *v)
-{
-  fprintf (fp, "\"%s\"", getString ((string *) v));
-}
-
-int
-compareString (void *v, void *w)
-{
-	string *s1 = (string*)v;
-	string *s2 = (string*)w;
-	char* c1 = (char *)s1->value;
-	char* c2 = (char *)s2->value;
-  return strcmp(c1,c2);
-}
-
-void
 freeString (string * v)
 {
   free (v);
