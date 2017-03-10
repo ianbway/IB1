@@ -93,45 +93,7 @@ void Fatal(char *fmt, ...)
 
 int processBST(char, FILE, FILE* corp, FILE* cmds, FILE* out)
 {
-	queue *inputQueue = newQueue(print);
-	queue *outputQueue = newQueue(print);
-	stack *sortStack = newStack(print);
-
-	double r;
-	int d;
-	char *s;
-	switch (type) {
-	case 'r':
-		while (!feof(fp) && (r = readReal(fp)))
-		{
-			enqueue(inputQueue, newReal(r));
-		}
-		break;
-	case 'd':
-		while (!feof(fp) && (d = readInt(fp)))
-		{
-			enqueue(inputQueue, newInteger(d));
-		}
-		break;
-	case 's':
-		while (!feof(fp) && (s = readString(fp)))
-		{
-			enqueue(inputQueue, newString(s));
-		}
-		break;
-	}
-
-	// display queue before sorting
-	displayQueue(stdout, inputQueue);
-	fprintf(stdout, "\n");
-
-	// sort queue
-	sort(comp, inputQueue, outputQueue, sortStack);
-
-	// display queue after sorting
-	displayQueue(stdout, outputQueue);
-	fprintf(stdout, "\n");
-
+	
 	fclose(corp);
 	fclose(cmds);
 	fclose(out);
