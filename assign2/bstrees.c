@@ -8,22 +8,25 @@
 #include "comparator.h"
 
 void Fatal(char *, ...);
-void printResult();
-int processBST(char, FILE, FILE*, FILE*, FILE*);
+int processBST(char, FILE*, FILE*, FILE*);
 
 int main(int argc, char **argv)
 {
 
-	int argIndex = 1; //default to 1 in order to skip executable
 	char *arg;
-	char *fileName = 0;
-	int printAuthorOption = 0;
-	Comparator cmp = 0;
-	Printer prt = 0;
 	char type;
-	FILE *input;
+	char *corpusFileName = 0;
+	char *commandsFileName = 0;
+	char *outputFileName = 0;
+	FILE *corpus;
+	FILE *commands;
+	FILE *output;
 
-	arg = argv[argIndex];
+	if (argc < 4 || argc > 5) {
+			Fatal("invalid number of arguments, usage: bstrees -v -r corpusFile commandsFile [output]\n");
+	}
+
+	arg = argv[1];
 
 	if (arg[0] == '-')
 	{
@@ -44,38 +47,44 @@ int main(int argc, char **argv)
 		Fatal("Must be -v or -r");
 	}
 
-	if (corpus)
+	corpusFileName = argv[2];
+	if (corpusFileName)
 	{
-		input = fopen(corpus, "r");
-		if (input == NULL)
+		corpus = fopen(corpusFileName, "r");
+		if (corpus == NULL)
 		{
-			Fatal("could not open %s file\n", corpus);
+			Fatal("could not open %s file\n", corpusFileName);
 		}
 	}
 	
-	if (commands)
+	commandsFileName = argv[3];
+	if (commandsFileName)
 	{
-		input = fopen(commands, "r");
-		if (input == NULL)
+		commands = fopen(commandsFileName, "r");
+		if (commands == NULL)
 		{
-			Fatal("could not open %s file\n", commands);
+			Fatal("could not open %s file\n", commandsFileName);
 		}
 	}
 
-	if (outputfile)
+	if (argc == 5) {
+		outputFileName = argv[4];
+	}
+
+	if (outputFileName)
 	{
-		input = fopen(outputfile, "w");
-		if (input == NULL)
+		output = fopen(outputFileName, "w");
+		if (output == NULL)
 		{
-			Fatal("could not open %s file\n", outputfile);
+			Fatal("could not open %s file\n", outputFileName);
 		}
 	}
 	else 
 	{
-		outputfile = stdout;
+		output = stdout;
 	}
-
-	return 0;
+	
+	return processBST(type, corpus,commands,output);
 }
 
 // print the error string and return
@@ -91,9 +100,11 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 }
 
-int processBST(char, FILE, FILE* corp, FILE* cmds, FILE* out)
+int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 {
 	
+	fprintf(stdout, "processBST:%c\n",bstType);
+
 	fclose(corp);
 	fclose(cmds);
 	fclose(out);
