@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 	if (corpusFileName)
 	{
 		corpus = fopen(corpusFileName, "r");
-		if (corpus == NULL)
+		if (corpus == 0)
 		{
 			Fatal("could not open %s file\n", corpusFileName);
 		}
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 	if (commandsFileName)
 	{
 		commands = fopen(commandsFileName, "r");
-		if (commands == NULL)
+		if (commands == 0)
 		{
 			Fatal("could not open %s file\n", commandsFileName);
 		}
@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 	if (outputFileName)
 	{
 		output = fopen(outputFileName, "w");
-		if (output == NULL)
+		if (output == 0)
 		{
 			Fatal("could not open %s file\n", outputFileName);
 		}
@@ -104,6 +104,31 @@ int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 {
 	
 	fprintf(stdout, "processBST:%c\n",bstType);
+	char *s;
+	// load up bst
+	while (!feof(corp))
+	{
+		if (stringPending(corp)) 
+			s = readString(corp);
+		else
+			s = readToken(corp);
+
+		if (s != 0) {
+			fprintf(stdout, "corpus:%s\n",s);
+		}
+	}
+
+	// process commands
+	while (!feof(cmds))
+	{
+		if (stringPending(cmds)) 
+			s = readString(cmds);
+		else
+			s = readToken(cmds);
+		if (s != 0) {
+			fprintf(stdout, "cmds:%s\n",s);
+		}
+	}	
 
 	fclose(corp);
 	fclose(cmds);
