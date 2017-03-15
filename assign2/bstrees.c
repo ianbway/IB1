@@ -6,6 +6,8 @@
 #include "integer.h"
 #include "real.h"
 #include "comparator.h"
+#include "vbst.h"
+#include "rbt.h"
 
 void Fatal(char *, ...);
 int processBST(char, FILE*, FILE*, FILE*);
@@ -102,7 +104,18 @@ void Fatal(char *fmt, ...)
 
 int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 {
-	
+	Comparator cmp = compareString;
+	Printer prt = displayString;
+
+	vbst *vanilla = 0;
+	rbt *redBlack = 0;
+
+	if (bstType=='v') {
+		vanilla = newVBST(prt,cmp);
+	} else {
+		redBlack = newRBT(prt,cmp);
+	}	
+
 	fprintf(stdout, "processBST:%c\n",bstType);
 	char *s;
 	// load up bst
@@ -115,6 +128,11 @@ int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 
 		if (s != 0) {
 			fprintf(stdout, "corpus:%s\n",s);
+			if (vanilla !=0) {
+				insertVBST(vanilla,s);
+			} else {
+				insertRBT(redBlack,s);
+			}
 		}
 	}
 

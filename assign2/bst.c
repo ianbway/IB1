@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 bst *newBST(void (*d) (FILE *,void *),int (*c) (void *,void *))
 {
@@ -63,9 +64,17 @@ bstNode *insertBST(bst *tree,void *value)
 	return node;
 }
 
-int findBST(bst *,void *)
+int findBST(bst *tree,void *value)
 {
-
+	bstNode *node = findBSTNode(tree,value);
+	if (node == 0)
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
 }
 
 bstNode *findBSTNode(bst *tree,void *value)
@@ -127,7 +136,7 @@ void statisticsBST(bst *tree,FILE *f)
 	printf("Maximum depth: %d\n", maxDepth);
 }
 
-void displayBST(FILE *,bst *tree)
+void displayBST(FILE *fp,bst *tree)
 {
 
 }

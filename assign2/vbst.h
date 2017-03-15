@@ -10,15 +10,15 @@ typedef struct vbst
 		int (*compare)(void *,void *);
 		int size;
 		int words;
-		} rbt;
+		} vbst;
 
-extern rbt *newVBST(void (*)(FILE *,void *),int (*)(void *,void *));
-extern void insertVBST(rbt *,void *);
-extern int findVBST(rbt *,void *);
-extern void deleteVBST(rbt *,void *);
-extern int sizeVBST(rbt *);
-extern int wordsVBST(rbt *);
-extern void statisticsVBST(rbt *,FILE *);
-extern void displayVBST(FILE *,rbt *);
-extern void checkVBST(rbt *);               //optional
+extern vbst *newVBST(void (*)(FILE *,void *),int (*)(void *,void *));
+extern void insertVBST(vbst *,void *);
+extern int findVBST(vbst *,void *);
+extern void deleteVBST(vbst *,void *);
+extern int sizeVBST(vbst *);
+extern int wordsVBST(vbst *);
+extern void statisticsVBST(vbst *,FILE *);
+extern void displayVBST(FILE *,vbst *);
+extern void checkVBST(vbst *);               //optional
 #endif
