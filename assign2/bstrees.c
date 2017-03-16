@@ -108,12 +108,12 @@ int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 	Printer prt = displayString;
 
 	vbst *vanilla = 0;
-	rbt *redBlack = 0;
+//	rbt *redBlack = 0;
 
 	if (bstType=='v') {
 		vanilla = newVBST(prt,cmp);
 	} else {
-		redBlack = newRBT(prt,cmp);
+//		redBlack = newRBT(prt,cmp);
 	}	
 
 	fprintf(stdout, "processBST:%c\n",bstType);
@@ -131,7 +131,7 @@ int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 			if (vanilla !=0) {
 				insertVBST(vanilla,s);
 			} else {
-				insertRBT(redBlack,s);
+//				insertRBT(redBlack,s);
 			}
 		}
 	}

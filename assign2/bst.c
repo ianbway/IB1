@@ -1,16 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "bst.h"
+#include "queue.h"
+
+//macros for min/max
+#define min(a,b) (a<b?a:b)
+#define max(a,b) (a>b?a:b)
 
 bst *newBST(void (*d) (FILE *,void *),int (*c) (void *,void *))
 {
 	bst *tree = malloc(sizeof(bst));
-	if (tree = 0) {
+	if (tree == 0) {
 		fprintf(stderr, "out of memory\n");
 		exit(-1);
 	}
+
+	tree->root = 0;
 	tree->display = d;
 	tree->compare = c;
 	tree->size = 0;
+
 	return tree;
 }
 
@@ -61,6 +70,7 @@ bstNode *insertBST(bst *tree,void *value)
 		}
 	}
 
+	tree->size++;
 	return node;
 }
 
@@ -109,14 +119,26 @@ bstNode *findBSTNode(bst *tree,void *value)
 	return current;
 }
 
-bstNode *swapToLeafBSTNode(bstNode *)
+void pruneBSTNode(bst *tree, bstNode *node)
 {
+	//is root node
+	if (node == tree->root && tree->root->left == NULL && tree->root->right == NULL)
+	{
+		tree->root = NULL;
+	}
 
-}
-
-void pruneBSTNode(bst *tree,bstNode*)
-{
-
+	if(node->left == NULL && node->right == NULL)
+	{
+		if(node->parent->left == node)
+		{
+			node->parent->left = NULL;
+		}
+		else
+		{
+			node->parent->right = NULL;
+		}
+	}
+	tree->size--;
 }
 
 int sizeBST(bst *tree)
@@ -124,24 +146,164 @@ int sizeBST(bst *tree)
 	return tree->size;
 }
 
-void statisticsBST(bst *tree,FILE *f)
+int getMaxDepth(bstNode *node)
 {
-	int words = 0;
-	int nodes = 0;
-	int minDepth = 0;
-	int maxDepth = 0;
-	printf("Words/Phrases: %d\n", words);
-	printf("Nodes: %d\n", nodes);
-	printf("Minimum depth: %d\n", minDepth);
-	printf("Maximum depth: %d\n", maxDepth);
+	if (node == NULL)
+	{
+		return 0;
+	}
+
+	int depth = 0;
+	int maxLeft = getMaxDepth(node->left);
+	int maxRight = getMaxDepth(node->right);
+	depth = max(maxLeft, maxRight);
+	return ++depth;
+}
+
+int getMinDepth(bstNode *node)
+{
+	if(node == NULL)
+	{
+		return 0;
+	}
+	else
+	{
+			int depth = min(getMinDepth(node->left),getMinDepth(node->right));
+			return ++depth;
+	}
+}
+void statisticsBST(bst *tree,FILE *fp)
+{
+	bstNode *root = tree->root;
+	int minDepth = getMinDepth(root);
+	int maxDepth = getMaxDepth(root);
+
+	fprintf(fp,"Nodes: %d\n", sizeBST(tree));
+	fprintf(fp,"Minimum depth: %d\n", minDepth);
+	fprintf(fp,"Maximum depth: %d\n", maxDepth);
 }
 
 void displayBST(FILE *fp,bst *tree)
 {
+	if(tree->root == NULL)
+	{
+		fprintf(fp, "0:\n");
+		return;
+	}
 
+	queue *newQ = newQueue(tree->display);
+	enqueue(newQ, tree->root);//enqueue root and a null character to represent first level
+	enqueue(newQ, NULL);
+
+	bstNode *node;
+
+	int breadthLevel = 0;
+	fprintf(fp, "%d: ", breadthLevel);
+
+	while (sizeQueue(newQ)) //while the queue is not empty 
+	{
+		node = dequeue(newQ); //begin dequeue
+		if(sizeQueue(newQ) == 0)
+		{
+			fprintf(fp, "\n");
+			break;
+		}
+		else if(node == NULL)//if the dequeue value is null
+		{
+			fprintf(fp,"\n");
+			enqueue(newQ, NULL);//enqueue null to represent end of level
+			breadthLevel++;
+			if(sizeQueue(newQ) > 0)
+			{
+				fprintf(fp, "%d: ", breadthLevel);
+			}
+		}
+	else
+	{
+		if(node->left == NULL && node->right == NULL)
+		{
+		fprintf(fp, "=");
+		}
+
+		tree->display(fp, node->value);
+
+		if(node == tree->root)
+		{
+			fprintf(fp, "("); 
+			tree->display(fp, node->parent->value);
+			fprintf(fp, ")-");
+		}
+		else if(node->parent != NULL)
+		{
+			if(tree->compare(node->value, node->parent->value)<0)
+			{
+				fprintf(fp, "("); 
+				tree->display(fp, node->parent->value);
+				fprintf(fp, ")-l"); 
+			}
+			else
+			{
+				fprintf(fp, "("); 
+				tree->display(fp, node->parent->value);
+				fprintf(fp, ")-r"); 
+			}
+		}
+
+		if(peekQueue(newQ) != NULL) 
+		{
+			fprintf(fp, " ");
+		}
+
+		if(node->left != NULL)
+		{
+			enqueue(newQ, node->left);
+		}
+
+		if(node->right != NULL)
+		{
+			enqueue(newQ, node->right);
+		}
+	}
+	}
 }
 
-void checkBST(bst *tree)
-{
+bstNode *swapToLeafBSTNode(bstNode *node)
+{ 
+	bstNode *hold;
+	void *tmp;
 
+	// its already a leaf node
+	if (node->left == NULL && node->right == NULL)
+	{
+		return node;
+	}
+
+	if(node->left != NULL)//if n has a left child
+	{
+		hold = node->left;//hold value for later swap
+		while (hold->right != NULL)//after going left, search all the way right
+		{
+			//only gets us part way in some cases, need recursive call
+			hold = hold->right;
+		}
+		//after you've reached the end of the left childs rightmost child
+		//swap the original value for the value in the leaf
+		tmp = node->value;
+		node->value = hold->value;
+		hold->value = tmp;
+		return swapToLeafBSTNode(hold);//recursive call to go all the way to the leaf
+	}
+	else
+	{
+		hold = node->right;
+		while(hold->left != NULL)
+		{
+			hold = hold->left;
+		}
+		tmp = node->value;
+		node->value = hold->value;
+		hold->value = tmp;
+		return swapToLeafBSTNode(hold);
+	}
 }
+
