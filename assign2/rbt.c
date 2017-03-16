@@ -32,7 +32,7 @@ int findRBT(rbt *r,void *value)
 
 void deleteRBT(rbt *r,void *value)
 {
-
+	return 0;
 }
 
 int sizeRBT(rbt *r)
@@ -51,7 +51,7 @@ void statisticsRBT(rbt *r,FILE *fp)
 	fprintf(fp,"Words/Phrases: %d\n",r->words);
 
 	//print out items specific to bst
-	statisticsRBT(r->tree,fp);
+	return statisticsRBT(r->tree,fp);
 
 }
 

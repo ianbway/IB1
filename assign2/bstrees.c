@@ -24,7 +24,8 @@ int main(int argc, char **argv)
 	FILE *commands;
 	FILE *output;
 
-	if (argc < 4 || argc > 5) {
+	if (argc < 4 || argc > 5) 
+	{
 			Fatal("invalid number of arguments, usage: bstrees -v -r corpusFile commandsFile [output]\n");
 	}
 
@@ -69,7 +70,8 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (argc == 5) {
+	if (argc == 5) 
+	{
 		outputFileName = argv[4];
 	}
 
@@ -86,7 +88,7 @@ int main(int argc, char **argv)
 		output = stdout;
 	}
 	
-	return processBST(type, corpus,commands,output);
+	return processBST(type,corpus,commands,output);
 }
 
 // print the error string and return
@@ -108,12 +110,15 @@ int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 	Printer prt = displayString;
 
 	vbst *vanilla = 0;
-//	rbt *redBlack = 0;
+	//rbt *redBlack = 0;
 
-	if (bstType=='v') {
+	if (bstType=='v') 
+	{
 		vanilla = newVBST(prt,cmp);
-	} else {
-//		redBlack = newRBT(prt,cmp);
+	} 
+	else 
+	{
+	//redBlack = newRBT(prt,cmp);
 	}	
 
 	fprintf(stdout, "processBST:%c\n",bstType);
@@ -126,12 +131,16 @@ int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 		else
 			s = readToken(corp);
 
-		if (s != 0) {
+		if (s != 0) 
+		{
 			fprintf(stdout, "corpus:%s\n",s);
-			if (vanilla !=0) {
+			if (vanilla !=0) 
+			{
 				insertVBST(vanilla,s);
-			} else {
-//				insertRBT(redBlack,s);
+			} 
+			else 
+			{
+			//insertRBT(redBlack,s);
 			}
 		}
 	}
@@ -143,7 +152,8 @@ int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 			s = readString(cmds);
 		else
 			s = readToken(cmds);
-		if (s != 0) {
+		if (s != 0) 
+		{
 			fprintf(stdout, "cmds:%s\n",s);
 		}
 	}	

@@ -10,7 +10,8 @@
 bst *newBST(void (*d) (FILE *,void *),int (*c) (void *,void *))
 {
 	bst *tree = malloc(sizeof(bst));
-	if (tree == 0) {
+	if (tree == 0) 
+	{
 		fprintf(stderr, "out of memory\n");
 		exit(-1);
 	}
@@ -218,52 +219,52 @@ void displayBST(FILE *fp,bst *tree)
 				fprintf(fp, "%d: ", breadthLevel);
 			}
 		}
-	else
-	{
-		if(node->left == 0 && node->right == 0)
+		else
 		{
-		fprintf(fp, "=");
-		}
+			if(node->left == 0 && node->right == 0)
+			{
+				fprintf(fp, "=");
+			}
 
-		tree->display(fp, node->value);
+			tree->display(fp, node->value);
 
-		if(node == tree->root)
-		{
-			fprintf(fp, "("); 
-			tree->display(fp, node->parent->value);
-			fprintf(fp, ")-");
-		}
-		else if(node->parent != 0)
-		{
-			if(tree->compare(node->value, node->parent->value)<0)
+			if(node == tree->root)
 			{
 				fprintf(fp, "("); 
 				tree->display(fp, node->parent->value);
-				fprintf(fp, ")-l"); 
+				fprintf(fp, ")-");
 			}
-			else
+			else if(node->parent != 0)
 			{
-				fprintf(fp, "("); 
-				tree->display(fp, node->parent->value);
-				fprintf(fp, ")-r"); 
+				if(tree->compare(node->value, node->parent->value)<0)
+				{
+					fprintf(fp, "("); 
+					tree->display(fp, node->parent->value);
+					fprintf(fp, ")-l"); 
+				}
+				else
+				{
+					fprintf(fp, "("); 
+					tree->display(fp, node->parent->value);
+					fprintf(fp, ")-r"); 
+				}
+			}
+
+			if(peekQueue(newQ) != 0) 
+			{
+				fprintf(fp, " ");
+			}
+
+			if(node->left != 0)
+			{
+				enqueue(newQ, node->left);
+			}
+
+			if(node->right != 0)
+			{
+				enqueue(newQ, node->right);
 			}
 		}
-
-		if(peekQueue(newQ) != 0) 
-		{
-			fprintf(fp, " ");
-		}
-
-		if(node->left != 0)
-		{
-			enqueue(newQ, node->left);
-		}
-
-		if(node->right != 0)
-		{
-			enqueue(newQ, node->right);
-		}
-	}
 	}
 }
 
