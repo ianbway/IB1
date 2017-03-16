@@ -6,7 +6,8 @@
 rbt *newRBT(void (*d)(FILE *,void *),int (*c)(void *,void *))
 {
 	rbt r = malloc(sizeof(rbt));
-	if (r = 0) {
+	if (r = 0) 
+	{
 		fprintf(stderr, "out of memory\n");
 		exit(-1);
 	}
@@ -19,42 +20,42 @@ rbt *newRBT(void (*d)(FILE *,void *),int (*c)(void *,void *))
 
 }
 
-void insertRBT(rbt *tree,void *value)
+void insertRBT(rbt *r,void *value)
 {
 
 }
 
-int findRBT(rbt *tree,void *value)
+int findRBT(rbt *r,void *value)
 {
 
 }
 
-void deleteRBT(rbt *tree,void *value)
+void deleteRBT(rbt *r,void *value)
 {
 
 }
 
-int sizeRBT(rbt *tree)
+int sizeRBT(rbt *r)
 {
-	return tree->size;
+	return r->size;
 }
 
-int wordsRBT(rbt *tree)
+int wordsRBT(rbt *r)
 {
-	return tree->words;
+	return r->words;
 }
 
-void statisticsRBT(rbt *tree,FILE *fp)
+void statisticsRBT(rbt *r,FILE *fp)
 {
+	//print out items specific to rbt
+	fprintf(fp,"Words/Phrases: %d\n",r->words);
+
+	//print out items specific to bst
+	statisticsRBT(r->tree,fp);
 
 }
 
-void displayRBT(FILE *fp,rbt *tree)
+void displayRBT(FILE *fp,rbt *r)
 {
-	displayBST(fp,tree);
-}
-
-void checkRBT(rbt *tree)
-{
-
+	displayBST(fp,r->tree);
 }

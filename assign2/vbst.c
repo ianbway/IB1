@@ -11,7 +11,7 @@ typedef struct vbstValue
 		int (*compare)(void *,void *);
 		} vbstValue;
 
-vbstValue *findVBSTNode(vbst *, void *);
+//vbstValue *findVBSTNode(vbst *, void *);
 //void displayVBSTValue(FILE *, vbstValue *);
 //int compareVBSTValue(vbst *, vbstValue *);
 
@@ -37,7 +37,8 @@ static int compareVBSTValue(void *a, void *b)
 vbst *newVBST(void (*d)(FILE *,void *),int (*c)(void *,void *))
 {
 	vbst *v = malloc(sizeof(vbst));
-	if (v == 0) {
+	if (v == 0) 
+	{
 		fprintf(stderr, "out of memory\n");
 		exit(-1);
 	}
@@ -57,7 +58,7 @@ vbstValue *newVBSTValue(void (*d)(FILE *,void *),int (*c)(void *, void *))
 	vVal->display = d;
 	vVal->compare = c;
 
-  return vVal;
+  	return vVal;
 }
 
 void insertVBST(vbst *v,void *value)
@@ -66,13 +67,16 @@ void insertVBST(vbst *v,void *value)
 	vbstValue *vVal = newVBSTValue(v->display, v->compare);
 	
 	//check to see if exists and update frequency count
-  bstNode *node = findBSTNode(v->tree,vVal);
+  	bstNode *node = findBSTNode(v->tree,vVal);
 
 	// create a new node, its frequency should be 1
-	if (node == 0) {
+	if (node == 0) 
+	{
 		insertBST(v->tree,value);
 		v->size++;
-	} else {
+	} 
+	else 
+	{
 		//update the frequency of found node
 		((vbstValue *)(node->value))->frequency++;
 	}
@@ -86,9 +90,10 @@ vbstValue *findVBSTValue(vbst *v, void *value)
 	vbstValue *vVal = newVBSTValue(v->display, v->compare);
 	vVal->value = value;
 
-  bstNode *node = findBSTNode(v->tree,vVal);
-	if (node==0) {
-		return NULL;
+  	bstNode *node = findBSTNode(v->tree,vVal);
+	if (node==0) 
+	{
+		return 0;
 	} 
 	
 	return (vbstValue *)(node->value);
@@ -111,14 +116,18 @@ int findVBST(vbst *v,void *value)
 void deleteVBST(vbst *v,void *value)
 {
 	vbstValue *vVal = findVBSTValue(v, value);
-	if (vVal == 0) {
+	if (vVal == 0) 
+	{
 		return;
 	}
 
 	//check to see if node exists and update frequency count for deletion
-	if (vVal->frequency > 1) {
+	if (vVal->frequency > 1) 
+	{
 		vVal->frequency--;
-	} else {
+	} 
+	else 
+	{
 		bstNode *n = (bstNode *)vVal;
 		bstNode *node = swapToLeafBSTNode(n);
 		pruneBSTNode(v->tree,node);
@@ -137,7 +146,8 @@ extern int wordsVBST(vbst *v)
 	return v->words;
 }
 
-extern void statisticsVBST(vbst *v,FILE *fp) {
+extern void statisticsVBST(vbst *v,FILE *fp) 
+{
 	//print out items specific to vbst
 	fprintf(fp,"Words/Phrases: %d\n",v->words);
 
@@ -145,7 +155,8 @@ extern void statisticsVBST(vbst *v,FILE *fp) {
 	statisticsBST(v->tree,fp);	
 }
 
-extern void displayVBST(FILE *fp,vbst *v) {
+extern void displayVBST(FILE *fp,vbst *v) 
+{
 	displayBST(fp,v->tree);
 }
 

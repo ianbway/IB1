@@ -122,20 +122,20 @@ bstNode *findBSTNode(bst *tree,void *value)
 void pruneBSTNode(bst *tree, bstNode *node)
 {
 	//is root node
-	if (node == tree->root && tree->root->left == NULL && tree->root->right == NULL)
+	if (node == tree->root && tree->root->left == 0 && tree->root->right == 0)
 	{
-		tree->root = NULL;
+		tree->root = 0;
 	}
 
-	if(node->left == NULL && node->right == NULL)
+	if(node->left == 0 && node->right == 0)
 	{
 		if(node->parent->left == node)
 		{
-			node->parent->left = NULL;
+			node->parent->left = 0;
 		}
 		else
 		{
-			node->parent->right = NULL;
+			node->parent->right = 0;
 		}
 	}
 	tree->size--;
@@ -148,7 +148,7 @@ int sizeBST(bst *tree)
 
 int getMaxDepth(bstNode *node)
 {
-	if (node == NULL)
+	if (node == 0)
 	{
 		return 0;
 	}
@@ -162,7 +162,7 @@ int getMaxDepth(bstNode *node)
 
 int getMinDepth(bstNode *node)
 {
-	if(node == NULL)
+	if(node == 0)
 	{
 		return 0;
 	}
@@ -185,7 +185,7 @@ void statisticsBST(bst *tree,FILE *fp)
 
 void displayBST(FILE *fp,bst *tree)
 {
-	if(tree->root == NULL)
+	if(tree->root == 0)
 	{
 		fprintf(fp, "0:\n");
 		return;
@@ -193,7 +193,7 @@ void displayBST(FILE *fp,bst *tree)
 
 	queue *newQ = newQueue(tree->display);
 	enqueue(newQ, tree->root);//enqueue root and a null character to represent first level
-	enqueue(newQ, NULL);
+	enqueue(newQ, 0);
 
 	bstNode *node;
 
@@ -208,10 +208,10 @@ void displayBST(FILE *fp,bst *tree)
 			fprintf(fp, "\n");
 			break;
 		}
-		else if(node == NULL)//if the dequeue value is null
+		else if(node == 0)//if the dequeue value is null
 		{
 			fprintf(fp,"\n");
-			enqueue(newQ, NULL);//enqueue null to represent end of level
+			enqueue(newQ, 0);//enqueue null to represent end of level
 			breadthLevel++;
 			if(sizeQueue(newQ) > 0)
 			{
@@ -220,7 +220,7 @@ void displayBST(FILE *fp,bst *tree)
 		}
 	else
 	{
-		if(node->left == NULL && node->right == NULL)
+		if(node->left == 0 && node->right == 0)
 		{
 		fprintf(fp, "=");
 		}
@@ -233,7 +233,7 @@ void displayBST(FILE *fp,bst *tree)
 			tree->display(fp, node->parent->value);
 			fprintf(fp, ")-");
 		}
-		else if(node->parent != NULL)
+		else if(node->parent != 0)
 		{
 			if(tree->compare(node->value, node->parent->value)<0)
 			{
@@ -249,17 +249,17 @@ void displayBST(FILE *fp,bst *tree)
 			}
 		}
 
-		if(peekQueue(newQ) != NULL) 
+		if(peekQueue(newQ) != 0) 
 		{
 			fprintf(fp, " ");
 		}
 
-		if(node->left != NULL)
+		if(node->left != 0)
 		{
 			enqueue(newQ, node->left);
 		}
 
-		if(node->right != NULL)
+		if(node->right != 0)
 		{
 			enqueue(newQ, node->right);
 		}
@@ -273,15 +273,15 @@ bstNode *swapToLeafBSTNode(bstNode *node)
 	void *tmp;
 
 	// its already a leaf node
-	if (node->left == NULL && node->right == NULL)
+	if (node->left == 0 && node->right == 0)
 	{
 		return node;
 	}
 
-	if(node->left != NULL)//if n has a left child
+	if(node->left != 0)//if n has a left child
 	{
 		hold = node->left;//hold value for later swap
-		while (hold->right != NULL)//after going left, search all the way right
+		while (hold->right != 0)//after going left, search all the way right
 		{
 			//only gets us part way in some cases, need recursive call
 			hold = hold->right;
@@ -296,7 +296,7 @@ bstNode *swapToLeafBSTNode(bstNode *node)
 	else
 	{
 		hold = node->right;
-		while(hold->left != NULL)
+		while(hold->left != 0)
 		{
 			hold = hold->left;
 		}
