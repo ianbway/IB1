@@ -104,6 +104,17 @@ void Fatal(char *fmt, ...)
 	exit(-1);
 }
 
+char *processString(FILE *fp)
+{
+	char *string;
+	if (stringPending(fp)) 
+			string = readString(fp);
+		else
+			string = readToken(fp);
+
+	return string;
+}
+
 int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 {
 	Comparator cmp = compareString;
@@ -126,10 +137,7 @@ int processBST(char bstType, FILE* corp, FILE* cmds, FILE* out)
 	// load up bst
 	while (!feof(corp))
 	{
-		if (stringPending(corp)) 
-			s = readString(corp);
-		else
-			s = readToken(corp);
+		s = processString(corp);
 
 		if (s != 0) 
 		{
